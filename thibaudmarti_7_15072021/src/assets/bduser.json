@@ -1,0 +1,29 @@
+[
+    {
+        "id": "1",
+        "email": "thibaud@gmail.com",
+        "poste": "developpeur",
+        "nom": "Thibaud Marti",
+        "password": "thibaud",
+        "admin": false
+    
+    },
+    {
+        "id": "2",
+        "email": "emma@gmail.com",
+        "poste": "developpeur",
+        "nom": "emma Marti",
+        "password": "emma",
+        "admin": true
+    
+    },
+    {
+        "id": "3",
+        "email": "jean@gmail.com",
+        "poste": "developpeur",
+        "nom": "jean Marti",
+        "password": "jean",
+        "admin": false
+    
+    }
+]
