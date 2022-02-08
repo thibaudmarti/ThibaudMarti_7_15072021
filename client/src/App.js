@@ -1,23 +1,21 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
-import actu from "./page/actu";
-import connexion from "./page/connexion";
-import profil from "./page/profil";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Connection from "./pages/Connection";
+import Forum from "./pages/Forum";
+import Home from "./pages/Home";
+import Profil from "./pages/Profil";
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/" component={actu} />
-        <Route path="/profil" exact component={profil} />
-        <Redirect to="/connexion" component={connexion} />
-      </Switch>
-    </Router>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/connexion" element={<Connection />} />
+        <Route path="/profil" element={<Profil />} />
+        <Route path="/forum" element={<Forum />} />
+        <Route path="*" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
