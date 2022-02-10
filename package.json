@@ -1,5 +1,32 @@
 {
   "dependencies": {
-    "axios": "^0.25.0"
-  }
+    "axios": "^0.25.0",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.1",
+    "mongoose-unique-validator": "^3.0.0",
+    "nodemon": "^2.0.15",
+    "validator": "^13.7.0"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "thibaudmarti_7_15072021",
+  "description": "",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thibaudmarti/ThibaudMarti_7_15072021.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thibaudmarti/ThibaudMarti_7_15072021/issues"
+  },
+  "homepage": "https://github.com/thibaudmarti/ThibaudMarti_7_15072021#readme"
 }

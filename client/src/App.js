@@ -1,12 +1,16 @@
-import React from "react";
+import React, { createContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Connection from "./pages/Connection";
 import Forum from "./pages/Forum";
 import Home from "./pages/Home";
 import Profil from "./pages/Profil";
+import { CreateStore } from "redux";
 
 function App() {
+  const context = createContext();
+
   return (
+    // <context.Provider value={""}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -16,6 +20,7 @@ function App() {
         <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
+    // </context.Provider>
   );
 }
 
