@@ -17,10 +17,10 @@ const Forum = () => {
   }, [loadingForum, dispatch]);
 
   return (
-    <div>
+    <div className="forum">
       {!isEmpty(forums) &&
         forums.map((forum, index) => {
-          return <div key={forum.id}> {forum.nom} </div>;
+          return <div key={forum.id}> {forum.name} </div>;
         })}
     </div>
   );

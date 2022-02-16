@@ -1,7 +1,15 @@
 import React from "react";
+import PostContainer from "../components/PostContainer";
+import Trending from "../components/Trending";
 
 const Home = () => {
-  return <div>Page Home</div>;
+  return (
+    <div className="home">
+      Page Home
+      <PostContainer />
+      <Trending />
+    </div>
+  );
 };
 
 export default Home;

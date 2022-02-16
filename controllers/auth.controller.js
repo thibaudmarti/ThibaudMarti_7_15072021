@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const maxAge = 2 * 24 * 60 * 60 * 1000; // 2 days
+
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_KEY, {
     expiresIn: maxAge,
@@ -41,7 +42,7 @@ exports.signUp = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-exports.login = (req, res, next) => {
+module.exports.login = (req, res, next) => {
   // find user by email, witch is unique, in the body of the request
   UserModel.findOne({ email: req.body.email })
     .then((user) => {
@@ -51,28 +52,23 @@ exports.login = (req, res, next) => {
       // compare password between request and the user found
       bcrypt
         .compare(req.body.password, user.password)
-        .then((valid) => {
+        .then(async (valid) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect" });
           }
 
           const token = createToken(user._id);
-          res.cookie("jwt", token, { httpOnly: true, maxAge });
+          res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
 
           // send response for userId and token to front
-          res.status(200).json({
-            userId: user._id,
-            // token: jwt.sign({ userId: user._id }, process.env.TOKEN_KEY, {
-            //   expiresIn: 2 * 24 * 60 * 60 * 1000,
-            // }),
-          });
+          res.status(200).json({ user: user._id });
         })
         .catch((error) => res.status(500).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
 };
 
-exports.logout = (req, res, next) => {
-  res.cookie("jwt", "", { maxAge: 1 });
-  res.redirect("/");
-};
+// exports.logout = (req, res, next) => {
+//   res.cookie("jwt", "", { maxAge: 1 });
+//   res.redirect("/");
+// };
