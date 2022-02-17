@@ -3,7 +3,7 @@ import PostCard from "./PostCard";
 
 const PostContainer = () => {
   return (
-    <div>
+    <div className="post-container">
       PostContainer
       <PostCard />
     </div>

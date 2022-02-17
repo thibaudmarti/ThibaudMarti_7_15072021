@@ -20,7 +20,11 @@ const Forum = () => {
     <div className="forum">
       {!isEmpty(forums) &&
         forums.map((forum, index) => {
-          return <div key={forum.id}> {forum.name} </div>;
+          return (
+            <div key={forum.id}>
+              {forum.name}, {forum.job}, {forum.email}
+            </div>
+          );
         })}
     </div>
   );

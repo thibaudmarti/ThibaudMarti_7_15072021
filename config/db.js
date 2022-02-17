@@ -1,16 +1,17 @@
-const mongoose = require("mongoose");
+const mysql = require("mysql2");
+require("dotenv").config();
 
-mongoose
-  .connect(process.env.CONNECT_MDB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connexion à MongoDB réussie !"))
-  .catch((err) => console.log("Connexion à MongoDB échouée !", err));
-
-const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "projet7bdd",
+const pool = mysql.createPool({
+  connectionLimit: 100,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
+
+//   pool.getConnection((err, connection) => {
+//     if (err) throw err;
+//     console.log("Connected as ID " + connection.threadId);
+//   });
+
+module.exports = pool;

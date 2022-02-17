@@ -29,6 +29,11 @@ const Navbar = () => {
             <h5>Forum</h5>
           </NavLink>
         </div>
+        <div>
+          <NavLink to="/connexion">
+            <h5>Connexion</h5>
+          </NavLink>
+        </div>
         {/* {uid ? (
           <ul>
             <li></li>
