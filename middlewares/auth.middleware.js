@@ -67,25 +67,31 @@ require("dotenv").config();
 
 module.exports = (req, res, next) => {
   try {
-    if (req.cookies.jwt) {
-      const { jwt: token } = req.cookies;
+    console.log(req.headers.cookie);
+    if (req.headers.cookie !== undefined && req.headers.cookie !== null) {
+      const token = req.headers.cookie.split("=")[1];
       const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
-      const { user_id: userId } = decodedToken;
-      const sql = `SELECT id_user FROM user WHERE id_user = ?`;
-      pool.query(sql, [userId], (err, result) => {
+      console.log(decodedToken);
+      const { id_user } = decodedToken;
+      const sql = `SELECT * FROM user WHERE id_user = ?`;
+      pool.query(sql, [id_user], (err, result) => {
         if (err) res.status(204).json(err);
         else {
+          console.log(result[0].user_name);
+          res.user = result[0];
           console.log("succes auth");
           next();
         }
       });
     } else {
-      res.clearCookie();
+      // res.clearCookie();
+
       res.status(401).json({ message: "Unauthorized" });
     }
   } catch (err) {
-    res.clearCookie();
-    console.log(err);
-    res.status(401).json({ message: "Unauthorized" });
+    // res.clearCookie();
+    // console.log(err);
+
+    res.status(401).json({ message: err });
   }
 };

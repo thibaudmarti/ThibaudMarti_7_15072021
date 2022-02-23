@@ -7,7 +7,6 @@ exports.signup = async (req, res) => {
   try {
     const { user_password: password } = req.body;
 
-    // ====== Password encryption =========
     const salt = await bcrypt.genSalt(10);
     const encryptedPassword = await bcrypt.hash(password, salt);
 
@@ -30,9 +29,8 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = (req, res) => {
-  //===== Check if user exists in DB ======
   const { user_email, user_password: clearPassword } = req.body;
-  const sql = `SELECT user_name, user_password, user_job, active FROM user WHERE user_email=?`;
+  const sql = `SELECT id_user, user_name, user_password, user_job, active FROM user WHERE user_email=?`;
 
   pool.query(sql, [user_email], async (err, results) => {
     if (err) {
@@ -42,7 +40,7 @@ exports.login = (req, res) => {
     // ===== Verify password with hash in DB ======
     if (results[0] && results[0].active === 1) {
       try {
-        const { user_password: hashedPassword, user_id } = results[0];
+        const { user_password: hashedPassword, id_user } = results[0];
         const match = await bcrypt.compare(clearPassword, hashedPassword);
         if (!match) {
           res.status(200).json({
@@ -53,7 +51,7 @@ exports.login = (req, res) => {
 
         // If match, generate JWT token
         const maxAge = 1 * (24 * 60 * 60 * 1000);
-        const token = jwt.sign({ user_id }, process.env.TOKEN_KEY, {
+        const token = jwt.sign({ id_user: id_user }, process.env.TOKEN_KEY, {
           expiresIn: maxAge,
         });
 
@@ -65,10 +63,10 @@ exports.login = (req, res) => {
         // remove the password key of the response
         delete results[0].user_password;
 
-        res.cookie("jwt", token);
+        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
         res.status(200).json({
-          user: results[0],
-          token: jwt.sign({ userId: user_id }, process.env.TOKEN_KEY, {
+          id_user: results[0],
+          token: jwt.sign({ id_user }, process.env.TOKEN_KEY, {
             expiresIn: "24h",
           }),
         });
@@ -90,11 +88,11 @@ exports.logout = (req, res) => {
   res.status(200).json("OUT");
 };
 
-exports.desactivateAccount = (req, res) => {
-  const userId = req.params.id;
+exports.desactivateUser = (req, res) => {
+  const id_user = req.params.id;
   const sql = `UPDATE user u SET active=0 WHERE u.id_user = ?`;
 
-  pool.query(sql, userId, (err, results) => {
+  pool.query(sql, [id_user], (err, results) => {
     if (err) {
       return res.status(404).json({ err });
     }
@@ -177,7 +175,7 @@ exports.deleteUser = (req, res, next) => {
 //           const token = createToken(user._id);
 //           res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
 
-//           // send response for userId and token to front
+//           // send response for id_user and token to front
 //           res.status(200).json({ user: user._id });
 //         })
 //         .catch((error) => res.status(500).json({ error }));

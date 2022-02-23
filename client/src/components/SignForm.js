@@ -4,10 +4,10 @@ import LogForm from "./LogForm";
 
 const SignForm = () => {
   const [formSubmit, setFormSubmit] = useState(false);
-  const [name, setName] = useState("");
-  const [job, setJob] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user_name, setName] = useState("");
+  const [user_job, setJob] = useState("");
+  const [user_email, setEmail] = useState("");
+  const [user_password, setPassword] = useState("");
   const [controlPassword, setControlPassword] = useState("");
 
   const handleRegister = async (e) => {
@@ -23,18 +23,18 @@ const SignForm = () => {
 
     // passwordConfirmError = "";
 
-    if (password !== controlPassword) {
+    if (user_password !== controlPassword) {
       passwordConfirmError.innerHTML =
         "Les mots de passe ne correspondent pas.";
     } else {
       await axios({
         method: "post",
-        url: `${process.env.REACT_APP_API_URL}api/user/register`,
+        url: `${process.env.REACT_APP_API_URL}api/auth/signup`,
         data: {
-          name,
-          job,
-          email,
-          password,
+          user_name,
+          user_job,
+          user_email,
+          user_password,
         },
       })
         .then((res) => {
@@ -70,7 +70,7 @@ const SignForm = () => {
             name="name"
             id="name"
             onChange={(e) => setName(e.target.value)}
-            value={name}
+            value={user_name}
           />
           <div className="name error"></div>
           <br />
@@ -81,7 +81,7 @@ const SignForm = () => {
             name="job"
             id="job"
             onChange={(e) => setJob(e.target.value)}
-            value={job}
+            value={user_job}
           />
           <div className="job error"></div>
           <br />
@@ -92,7 +92,7 @@ const SignForm = () => {
             name="email"
             id="email"
             onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            value={user_email}
           />
           <div className="email error"></div>
           <br />
@@ -103,7 +103,7 @@ const SignForm = () => {
             name="password"
             id="password"
             onChange={(e) => setPassword(e.target.value)}
-            value={password}
+            value={user_password}
           />
           <div className="password error"></div>
           <br />

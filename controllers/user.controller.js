@@ -1,148 +1,88 @@
 const pool = require("../config/db.js");
 
-// module.exports.getAllUsers = async (req, res) => {
-//   const users = await UserModel.find().select("-password");
-//   res.status(200).json(users);
-// };
+const fs = require("fs");
 
-module.exports.getAllUsers = (req, res, next) => {
-  const sqlSelect = `SELECT * FROM user`;
-  pool.query(sqlSelect, (err, result) => {
-    if (err) throw err;
-    console.log(result);
-    res.status(200).json(result);
+// RUD users
+
+exports.getOneUser = (req, res, next) => {
+  const { id: id_user } = req.params;
+  const sqlGetUser = `SELECT * FROM user WHERE user.id_user = ?`;
+  pool.query(sqlGetUser, [id_user], (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+    delete result[0].user_password;
+    console.log(result[0]);
+    res.status(200).json(result[0]);
   });
 };
 
-// module.exports.createUser = (req, res, next) => {
-//   const usr = [
-//     req.body.user_name,
-//     req.body.user_email,
-//     req.body.user_password,
-//     req.body.user_job,
-//   ];
-//   const sql = `INSERT INTO user (user_name, user_email, user_password, user_job) VALUES (?, ?, ?, ?)`;
-//   pool.execute(sql, [...usr], (err, result) => {
-//     if (!err) {
-//       res.status(201).json({ message: "Utilisateur créé" });
-//     } else {
-//       res.status(400).json({ error: err });
-//     }
-//   });
-// };
+exports.updateUserName = (req, res, next) => {
+  let { user_name } = req.body;
+  const { id: id_user } = req.params;
 
-exports.createUser = (req, res, next) => {
-  console.log(req.body);
-  const { user_name, user_email, user_password, user_job } = req.body;
-  const sqlInsert = `INSERT INTO user (user_name, user_email, user_password, user_job) VALUES (?, ?, ?, ?)`;
-  pool.query(
-    sqlInsert,
-    [user_name, user_email, user_password, user_job],
-    (err, result) => {
+  const sqlUpdateUser = `UPDATE user u SET user_name = ? WHERE u.id_user = ?`;
+  pool.query(sqlUpdateUser, [user_name, id_user], (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+    if (result) {
+      res.status(200).json(result);
+    }
+  });
+};
+
+exports.updateUserJob = (req, res, next) => {
+  let { user_job } = req.body;
+  const { id: id_user } = req.params;
+
+  const sqlUpdateUser = `UPDATE user u SET user_job = ? WHERE u.id_user = ?`;
+  pool.query(sqlUpdateUser, [user_job, id_user], (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+    if (result) {
+      res.status(200).json(result);
+    }
+  });
+};
+
+exports.updateUserPicture = (req, res, next) => {
+  const { id: id_user } = req.params;
+
+  const sqlDeleteImg = `SELECT user_picture FROM user WHERE id_user = ?`;
+  pool.query(sqlDeleteImg, [id_user], (err, result) => {
+    if (
+      result[0].user_picture &&
+      result[0].user_picture !== "./images/profils/default/default.jpg"
+    ) {
+      const userPic = result[0].user_picture;
+      const picName = userPic.split("./images/profils/")[1];
+      fs.unlink(`images/profils/${picName}`, (err) => {
+        if (err) throw err;
+        console.log(`Former picture ${picName} has been deleted`);
+      });
+    }
+  });
+
+  if (req.file) {
+    let { destination, filename } = req.file;
+    destination = destination + filename;
+
+    const sqlUpdateUser = `UPDATE user u SET user_picture = ? WHERE u.id_user = ?`;
+    pool.query(sqlUpdateUser, [destination, id_user], (err, result) => {
       if (err) {
         res.status(404).json({ err });
         throw err;
       }
-      console.log("user created");
-      res.status(201).json({ message: "user created" });
-    }
-  );
+      if (result) {
+        res.status(200).json(result);
+      }
+    });
+  } else {
+    return res.status(400).json({ error: "error" });
+  }
 };
-
-module.exports.deleteUser = (req, res, next) => {
-  const id_user = req.params.id;
-  console.log(req.params);
-  const sqlDelete = `DELETE FROM user WHERE id_user = ?`;
-  pool.query(sqlDelete, [id_user], (err, result) => {
-    if (err) throw err;
-    console.log("user deleted");
-    res.status(200).json({ message: "user deleted" });
-  });
-};
-
-module.exports.getOneUser = (req, res, next) => {
-  const id = req.params.id;
-  console.log(req.params);
-  const sqlGet = `SELECT * FROM user WHERE id_user = ?`;
-  pool.query(sqlGet, [id], (err, result) => {
-    if (err) throw err;
-    console.log("user get");
-    console.log(result);
-    res.status(200).json(result);
-  });
-};
-// module.exports.getOneUser = (req, res, next) => {
-//   const id = req.params.id;
-//   console.log(id);
-//   const sql = `SELECT * FROM user`;
-//   pool.execute(sql, (err, result) => {
-//     console.log(result);
-//     res.status(200).json(result);
-//   });
-// };
-
-// exports.getOneUser = (req, res, next) => {
-//   if (!ObjectID.isValid(req.params.id))
-//     return res.status(400).send("ID unknow : " + req.params.id);
-
-//   UserModel.findById(req.params.id, (err, docs) => {
-//     if (!err) res.send(docs);
-//     else console.log("ID unknow : " + err);
-//   }).select("-password");
-// };
-
-// exports.modifyUser = (req, res, next) => {
-//   if (!ObjectID.isValid(req.params.id))
-//     return res.status(400).send("ID unknow : " + req.params.id);
-
-//   try {
-//     UserModel.findOneAndUpdate(
-//       { _id: req.params.id },
-//       {
-//         $set: {
-//           bio: req.body.bio,
-//         },
-//       },
-//       { new: true, upsert: true, setDefaultsOnInsert: true },
-//       (err, docs) => {
-//         if (!err) return res.send(docs);
-//         if (err) return res.status(500).send({ message: err });
-//       }
-//     );
-//   } catch (err) {
-//     return res.status(500).json({ message: err });
-//   }
-// };
-
-// exports.modifyUser = (req, res, next) => {
-//   if (!ObjectID.isValid(req.params.id))
-//     return res.status(400).send("ID unknow : " + req.params.id);
-
-//   const userUpdate = { ...req.body };
-
-//   UserModel.findOne({ _id: req.params.id })
-//     .then((user) => {
-//       if (!user) {
-//         return res.status(404).json({
-//           error: new Error("User non trouvé !"),
-//         });
-//       }
-
-//       UserModel.updateOne(
-//         { _id: req.params.id },
-//         { ...userUpdate, _id: req.params.id }
-//       )
-//         .then(() => res.status(200).json({ message: "Objet modifié !" }))
-//         .catch((error) => res.status(400).json({ error }));
-//     })
-//     .catch((error) => res.status(500).json({ error }));
-// };
-
-// exports.deleteUser = (req, res, next) => {
-//   if (!ObjectID.isValid(req.params.id))
-//     return res.status(400).send("ID unknow : " + req.params.id);
-
-//   UserModel.deleteOne({ _id: req.params.id })
-//     .then(() => res.status(200).json({ message: "User deleted" }))
-//     .catch((error) => res.status(400).json({ error }));
-// };

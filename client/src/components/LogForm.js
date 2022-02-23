@@ -2,34 +2,34 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const LogForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [user_email, setEmail] = useState("");
+  const [user_password, setPassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // const emailError = document.querySelector(".email.error");
-    // const passwordError = document.querySelector(".password.error");
+    const emailError = document.querySelector(".email.error");
+    const passwordError = document.querySelector(".password.error");
 
-    window.location = "/";
-    // axios({
-    //   method: "post",
-    //   url: "bduser.json",
-    //   data: {
-    //     email,
-    //     password,
-    //   },
-    // })
-    //   .then((res) => {
-    //     if (res.data.errors) {
-    //       emailError.innerHTML = res.data.errors.email;
-    //       passwordError.innerHTML = res.data.errors.password;
-    //     } else {
-    //     window.location = "/";
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios({
+      method: "post",
+      url: `${process.env.REACT_APP_API_URL}api/auth/login`,
+      data: {
+        user_email,
+        user_password,
+      },
+      withCredentials: true,
+    })
+      .then((res) => {
+        if (res.data.errors) {
+          emailError.innerHTML = res.data.errors.email;
+          passwordError.innerHTML = res.data.errors.password;
+        } else {
+          window.location = "/";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <form action="" onSubmit={handleLogin} id="login-form">
@@ -40,7 +40,7 @@ const LogForm = () => {
         name="email"
         id="email"
         onChange={(e) => setEmail(e.target.value)}
-        value={email}
+        value={user_email}
       />
       <div className="email error"></div>
       <br />
@@ -51,7 +51,7 @@ const LogForm = () => {
         name="password"
         id="password"
         onChange={(e) => setPassword(e.target.value)}
-        value={password}
+        value={user_password}
       />
       <div className="password error"></div>
       <br />

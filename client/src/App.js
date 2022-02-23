@@ -34,30 +34,31 @@ import { useDispatch } from "react-redux";
 import { getUser } from "./actions/user.actions";
 
 const App = () => {
-  // const [uid, setUid] = useState(null);
-  // const dispatch = useDispatch();
+  const [uid, setUid] = useState({});
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const fetchToken = async () => {
-  //     await axios({
-  //       method: "get",
-  //       url: `${process.env.REACT_APP_API_URL}jwtid`,
-  //       withCredentials: true,
-  //     })
-  //       .then((res) => {
-  //         setUid(res.data);
-  //       })
-  //       .catch((err) => console.log("No token"));
-  //   };
-  //   fetchToken();
-
-  //   if (uid) dispatch(getUser(uid));
-  // }, [uid, dispatch]);
+  useEffect(() => {
+    const fetchToken = async () => {
+      await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}jwtid`,
+        withCredentials: true,
+      })
+        .then((res) => {
+          console.log(res.data);
+          setUid(res.data);
+        })
+        .catch((err) => console.log("No token"));
+    };
+    fetchToken();
+    console.log(uid);
+    if (uid) dispatch(getUser(uid.id_user));
+  }, [uid, dispatch]); //uid, dispatch
 
   return (
-    // <UidContext.Provider value={uid}>
-    <Routes />
-    /* </UidContext.Provider> */
+    <UidContext.Provider value={uid}>
+      <Routes />
+    </UidContext.Provider>
   );
 };
 
