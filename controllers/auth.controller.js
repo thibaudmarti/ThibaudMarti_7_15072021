@@ -3,6 +3,14 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const pool = require("../config/db.js");
 
+const maxAge = 1 * (24 * 60 * 60 * 1000);
+
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.TOKEN_KEY, {
+    expiresIn: maxAge,
+  });
+};
+
 exports.signup = async (req, res) => {
   try {
     const { user_password: password } = req.body;
@@ -41,6 +49,7 @@ exports.login = (req, res) => {
     if (results[0] && results[0].active === 1) {
       try {
         const { user_password: hashedPassword, id_user } = results[0];
+
         const match = await bcrypt.compare(clearPassword, hashedPassword);
         if (!match) {
           res.status(200).json({
@@ -50,10 +59,8 @@ exports.login = (req, res) => {
         }
 
         // If match, generate JWT token
-        const maxAge = 1 * (24 * 60 * 60 * 1000);
-        const token = jwt.sign({ id_user: id_user }, process.env.TOKEN_KEY, {
-          expiresIn: maxAge,
-        });
+        // const maxAge = 1 * (24 * 60 * 60 * 1000);
+        const token = createToken(id_user);
 
         // httpOnly: true,
         // maxAge,
@@ -65,7 +72,7 @@ exports.login = (req, res) => {
 
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
         res.status(200).json({
-          id_user: results[0],
+          id_user: results[0].id_user,
           token: jwt.sign({ id_user }, process.env.TOKEN_KEY, {
             expiresIn: "24h",
           }),

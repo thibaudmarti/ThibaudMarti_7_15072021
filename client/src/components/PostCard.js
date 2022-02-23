@@ -7,7 +7,7 @@ const PostCard = () => {
   const [loadingForum, setLoadingForum] = useState(true);
   const dispatch = useDispatch();
   const forums = useSelector((state) => state.forumReducer);
-  console.log(forums);
+  // console.log(forums);
 
   useEffect(() => {
     if (loadingForum) {

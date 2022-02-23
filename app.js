@@ -8,6 +8,7 @@ const userRoutes = require("./routes/user.routes");
 const postRoutes = require("./routes/post.routes");
 const authRoutes = require("./routes/auth.routes");
 const commentRoutes = require("./routes/comment.routes");
+// const { requireAuth } = require("./middlewares/auth.middleware");
 const auth = require("./middlewares/auth.middleware");
 
 const path = require("path");
@@ -26,28 +27,31 @@ app.use(morgan("dev"));
 
 // CORS
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header(
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  res.setHeader(
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
   );
-  res.header(
+  res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
-  res.header("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Credentials", true);
   next();
-});
-
-app.get("/jwtid", auth, (req, res) => {
-  res.user && delete res.user.password;
-
-  res.status(200).json(res.user);
 });
 
 // method to parse the request body as a JSON object (POST)
 app.use(express.json());
 app.use(cookieParser());
+
+app.get("/jwtid", auth, (req, res) => {
+  if (res.locals.user) {
+    console.log(res.locals.user.id_user);
+    res.status(200).json(res.locals.user.id_user);
+  } else {
+    res.status(400).json({ errors: "No locals data" });
+  }
+});
 
 // static image resource management
 app.use("/images", express.static(path.join(__dirname, "images")));

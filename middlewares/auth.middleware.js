@@ -67,31 +67,43 @@ require("dotenv").config();
 
 module.exports = (req, res, next) => {
   try {
-    console.log(req.headers.cookie);
-    if (req.headers.cookie !== undefined && req.headers.cookie !== null) {
-      const token = req.headers.cookie.split("=")[1];
+    if (req.cookies.jwt) {
+      const token = req.cookies.jwt;
+      // console.log(token);
       const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
-      console.log(decodedToken);
-      const { id_user } = decodedToken;
+      // console.log(decodedToken);
+      const id_user = decodedToken.id;
       const sql = `SELECT * FROM user WHERE id_user = ?`;
       pool.query(sql, [id_user], (err, result) => {
         if (err) res.status(204).json(err);
         else {
-          console.log(result[0].user_name);
-          res.user = result[0];
+          console.log(result);
+          res.locals.user = result[0];
           console.log("succes auth");
           next();
         }
       });
     } else {
-      // res.clearCookie();
-
+      res.clearCookie();
       res.status(401).json({ message: "Unauthorized" });
     }
   } catch (err) {
-    // res.clearCookie();
-    // console.log(err);
-
-    res.status(401).json({ message: err });
+    res.clearCookie();
+    console.log(err);
+    res.status(401).json({ message: "Unauthorized" });
   }
 };
+
+// module.exports.requireAuth = (req, res, next) => {
+//   const token = req.cookies.jwt;
+//   console.log(token);
+//   if (token) {
+//     const decodedToken = jwt.verify(token, process.env.TOKEN_KEY);
+//     if (decodedToken) {
+//       console.log("succes auth");
+//       next();
+//     }
+//   } else {
+//     console.log("No token");
+//   }
+// };

@@ -15,7 +15,7 @@ const SignForm = () => {
 
     const nameError = document.querySelector(".name.error");
     const emailError = document.querySelector(".email.error");
-    const jobError = document.querySelector(".job.error");
+    // const jobError = document.querySelector(".job.error");
     const passwordError = document.querySelector(".password.error");
     const passwordConfirmError = document.querySelector(
       ".password-confirm.error"
