@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getForums } from "../actions/forum.action";
+// import { getForums } from "../actions/forum.action";
 import { isEmpty } from "./Utils";
 
 const PostCard = () => {
@@ -11,7 +11,7 @@ const PostCard = () => {
 
   useEffect(() => {
     if (loadingForum) {
-      dispatch(getForums());
+      // dispatch(getForums());
       setLoadingForum(false);
     }
   }, [loadingForum, dispatch]);

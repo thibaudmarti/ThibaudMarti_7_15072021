@@ -24,7 +24,7 @@ import { BrowserRouter } from "react-router-dom";
 // import thunk from "redux-thunk";
 // import rootReducer from "./reducers";
 // import { getUsers } from "./actions/users.actions";
-// // dev tools
+// // // dev tools
 // import { composeWithDevTools } from "redux-devtools-extension";
 // import { getPosts } from "./actions/post.actions";
 

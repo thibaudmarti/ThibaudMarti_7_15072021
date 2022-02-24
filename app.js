@@ -9,7 +9,8 @@ const postRoutes = require("./routes/post.routes");
 const authRoutes = require("./routes/auth.routes");
 const commentRoutes = require("./routes/comment.routes");
 // const { requireAuth } = require("./middlewares/auth.middleware");
-const auth = require("./middlewares/auth.middleware");
+const authJwtid = require("./middlewares/authJwtid.middleware");
+// const auth = require("./middlewares/auth.middleware");
 
 const path = require("path");
 // import morgan
@@ -44,13 +45,10 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/jwtid", auth, (req, res) => {
-  if (res.locals.user) {
-    console.log(res.locals.user.id_user);
-    res.status(200).json(res.locals.user.id_user);
-  } else {
-    res.status(400).json({ errors: "No locals data" });
-  }
+app.get("/jwtid", authJwtid, (req, res) => {
+  // console.log(res.locals.user);
+  // console.log(res.locals.user.id_user);
+  res.status(200).json(res.locals.user.id_user);
 });
 
 // static image resource management

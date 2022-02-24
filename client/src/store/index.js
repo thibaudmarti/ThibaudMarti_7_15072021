@@ -2,6 +2,7 @@ import combineReducers from "../reducers";
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import logger from "redux-logger";
 
 // import { actions } from "../actions";
 // import { getForums } from "../actions/forum.action";
@@ -9,8 +10,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 const store = createStore(
   combineReducers,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware(thunk, logger))
 );
-// store.dispatch(getUser);
+// store.dispatch(getUser(uid));
 
 export default store;

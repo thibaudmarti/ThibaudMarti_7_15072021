@@ -76,9 +76,11 @@ module.exports = (req, res, next) => {
       const sql = `SELECT * FROM user WHERE id_user = ?`;
       pool.query(sql, [id_user], (err, result) => {
         if (err) res.status(204).json(err);
-        else {
-          console.log(result);
-          res.locals.user = result[0];
+        else if (!result) {
+          res.status(400).json({ error: "no result" });
+        } else {
+          // console.log(result);
+          // res.locals.user = result[0];
           console.log("succes auth");
           next();
         }
