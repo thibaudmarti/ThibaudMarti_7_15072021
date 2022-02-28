@@ -57,13 +57,11 @@ exports.updateUserPicture = (req, res, next) => {
 
   const sqlDeleteImg = `SELECT user_picture FROM user WHERE id_user = ?`;
   pool.query(sqlDeleteImg, [id_user], (err, result) => {
-    if (
-      result[0].user_picture &&
-      result[0].user_picture !== "./images/profils/default/default.jpg"
-    ) {
+    console.log(result[0]);
+    if (result[0].user_picture) {
       const userPic = result[0].user_picture;
-      const picName = userPic.split("./images/profils/")[1];
-      fs.unlink(`images/profils/${picName}`, (err) => {
+      const picName = userPic.split("./uploads/profil/")[1];
+      fs.unlink(`client/public/uploads/profil/${picName}`, (err) => {
         if (err) throw err;
         console.log(`Former picture ${picName} has been deleted`);
       });
@@ -73,7 +71,7 @@ exports.updateUserPicture = (req, res, next) => {
   if (req.file) {
     console.log(req.file.destination);
     let { destination, filename } = req.file;
-    destination = destination + filename;
+    destination = `./uploads/profil/` + filename;
     // ../../images/profils/filename
 
     const sqlUpdateUser = `UPDATE user u SET user_picture = ? WHERE u.id_user = ?`;

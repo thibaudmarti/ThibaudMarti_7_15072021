@@ -8,8 +8,10 @@ const MIME_TYPES = {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    if (file.fieldname === "post_image") cb(null, "./images/posts/");
-    else if (file.fieldname === "profil_image") cb(null, "./images/profils/");
+    if (file.fieldname === "post_image")
+      cb(null, "./client/public/uploads/posts/");
+    else if (file.fieldname === "profil_image")
+      cb(null, "./client/public/uploads/profil/");
   },
   filename: (req, file, callback) => {
     // remove space

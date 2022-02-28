@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const pool = require("../config/db.js");
+const fs = require("fs");
 
 const maxAge = 1 * (24 * 60 * 60 * 1000);
 
@@ -110,7 +111,20 @@ exports.desactivateUser = (req, res) => {
 
 exports.deleteUser = (req, res, next) => {
   const id_user = req.params.id;
-  console.log(req.params);
+
+  const sqlDeleteImg = `SELECT user_picture FROM user WHERE id_user = ?`;
+  pool.query(sqlDeleteImg, [id_user], (err, result) => {
+    console.log(result);
+    if (result[0].user_picture) {
+      const postPic = result[0].user_picture;
+      const picName = postPic.split("./uploads/profil/")[1];
+      fs.unlink(`client/public/uploads/profil/${picName}`, (err) => {
+        if (err) throw err;
+        console.log(`Former user picture ${picName} has been deleted`);
+      });
+    }
+  });
+
   const sqlDelete = `DELETE FROM user WHERE id_user = ?`;
   pool.query(sqlDelete, [id_user], (err, result) => {
     if (err) return res.status(404).json({ err });

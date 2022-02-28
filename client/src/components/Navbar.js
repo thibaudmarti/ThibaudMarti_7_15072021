@@ -19,16 +19,6 @@ const Navbar = () => {
             </div>
           </NavLink>
         </div>
-        <div>
-          <NavLink to="/profil">
-            <h5>Profil</h5>
-          </NavLink>
-        </div>
-        <div>
-          <NavLink to="/forum">
-            <h5>Forum</h5>
-          </NavLink>
-        </div>
 
         {uid ? (
           <ul>
@@ -44,6 +34,7 @@ const Navbar = () => {
           <ul>
             <li></li>
             <li>
+              Se connecter
               <NavLink to="/connexion">
                 <img src="./img/icons/login.svg" alt="logout" />
               </NavLink>

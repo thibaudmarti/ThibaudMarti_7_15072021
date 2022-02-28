@@ -5,18 +5,18 @@ const auth = require("../middlewares/auth.middleware");
 const upload = require("../middlewares/multer-config");
 
 // Post CRUD
-router.get("/", auth, postCtrl.getAllPosts);
+router.get("/", postCtrl.getAllPosts);
 // router.get("/:id", auth, postCtrl.getOnePost);
-router.post("/", auth, upload.single("post_image"), postCtrl.createPost);
-router.delete("/:id", auth, postCtrl.deleteOnePost);
-router.put("/:id", auth, postCtrl.updatePostContent);
+router.post("/", upload.single("post_image"), postCtrl.createPost);
+router.delete("/:id", postCtrl.deleteOnePost);
+router.put("/:id", postCtrl.updatePostContent);
 
 // Images
 // router.get("/image/:id", auth, postCtrl.getOneImage);
 
 // Like / Unlike
-router.patch("/:id/like", auth, postCtrl.likePost);
-router.post("/:id/postLikedByUser", auth, postCtrl.postLikedByUser);
-router.get("/:id/countLike", auth, postCtrl.countLikes);
+router.patch("/:id/like", postCtrl.likePost);
+router.post("/:id/postLikedByUser", postCtrl.postLikedByUser);
+router.get("/:id/countLike", postCtrl.countLikes);
 
 module.exports = router;

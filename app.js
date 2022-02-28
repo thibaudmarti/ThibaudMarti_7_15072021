@@ -52,7 +52,7 @@ app.get("/jwtid", authJwtid, (req, res) => {
 });
 
 // static image resource management
-app.use("/images", express.static(path.join(__dirname, "images")));
+// app.use("/image/:id", express.static(path.join(__dirname, "images")));
 
 // routes
 app.use("/api/auth", authRoutes);

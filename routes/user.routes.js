@@ -7,11 +7,11 @@ const upload = require("../middlewares/multer-config");
 // Post CRUD
 router.get("/:id", userCtrl.getOneUser);
 // router.get("/image/:id", auth, userCtrl.getProfilPicture);
-router.put("/name/:id", auth, userCtrl.updateUserName);
-router.put("/job/:id", auth, userCtrl.updateUserJob);
+router.put("/name/:id", userCtrl.updateUserName);
+router.put("/job/:id", userCtrl.updateUserJob);
 router.put(
   "/image/:id",
-  auth,
+  // auth,
   upload.single("profil_image"),
   userCtrl.updateUserPicture
 );

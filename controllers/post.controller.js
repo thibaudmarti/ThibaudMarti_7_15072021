@@ -1,5 +1,6 @@
 const pool = require("../config/db.js");
 
+const fs = require("fs");
 // exports.readPost = (req, res) => {
 //   PostModel.find((err, docs) => {
 //     if (!err) {
@@ -18,51 +19,39 @@ const pool = require("../config/db.js");
 //   });
 // };
 
-// exports.createPost = (req, res) => {
-//   const sql = `INSERT INTO post (post_content, id_user) VALUE (?, ?);`;
-//   console.log(req.body.post_content);
-//   pool.execute(
-//     sql,
-//     [req.body.post_content, req.body.id_user],
-//     (err, result) => {
-//       if (!err) {
-//         res.status(201).json({ message: "success" });
-//       } else {
-//         res.status(400).json({ error: err });
-//       }
-//     }
-//   );
-// };
-
 exports.createPost = (req, res, next) => {
   let { body, file } = req;
-  if (!file) delete req.body.post_image;
-  body = {
-    ...body,
-    // likes: "",
-  };
+  // console.log(body);
+  if (!file) {
+    const sqlInsert = "INSERT INTO post SET ?";
+    pool.query(sqlInsert, [body], (err, result) => {
+      if (err) {
+        res.status(404).json({ err });
+        throw err;
+      } else {
+        res.status(200).json(result);
+      }
+    });
+  }
 
-  const sqlInsert = "INSERT INTO post SET ?";
-  pool.query(sqlInsert, body, (err, result) => {
-    if (err) {
-      res.status(404).json({ err });
-      throw err;
-    }
-    // post_id will be equal to the post inserted, and will be reused to link the image at the correct post in the below query
-    const post_id = result.insertId;
-    if (file) {
-      const sqlInsertImage = `INSERT INTO images (image_url, post_id) VALUES ("${file.filename}", ${post_id})`;
-      pool.query(sqlInsertImage, (err, result) => {
+  // post_id will be equal to the post inserted, and will be reused to link the image at the correct post in the below query
+
+  if (file) {
+    let { filename } = req.file;
+    destination = `./uploads/posts/` + filename;
+    const sqlInsertImage = `INSERT INTO post (post_content, post_author, post_image) VALUES (?, ?, ?)`;
+    pool.query(
+      sqlInsertImage,
+      [body.post_content, body.post_author, destination],
+      (err, result) => {
         if (err) {
           res.status(404).json({ err });
           throw err;
         }
         res.status(200).json(result);
-      });
-    } else {
-      res.status(200).json(result);
-    }
-  });
+      }
+    );
+  }
 };
 
 exports.getAllPosts = (req, res, next) => {
@@ -89,6 +78,7 @@ exports.updatePostContent = (req, res, next) => {
       res.status(404).json({ err });
       throw err;
     }
+
     if (result) {
       res.status(200).json(result);
     }
@@ -97,6 +87,19 @@ exports.updatePostContent = (req, res, next) => {
 
 exports.deleteOnePost = (req, res, next) => {
   const { id: id_post } = req.params;
+
+  const sqlDeleteImg = `SELECT post_image FROM post WHERE id_post = ?`;
+  pool.query(sqlDeleteImg, [id_post], (err, result) => {
+    if (result[0].post_image) {
+      const postPic = result[0].post_image;
+      const picName = postPic.split("./uploads/posts/")[1];
+      fs.unlink(`client/public/uploads/posts/${picName}`, (err) => {
+        if (err) throw err;
+        console.log(`Former picture post ${picName} has been deleted`);
+      });
+    }
+  });
+
   const sql = `DELETE FROM post p WHERE p.id_post = ?`;
   pool.query(sql, [id_post], (err, result) => {
     if (err) {
