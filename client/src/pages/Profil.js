@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UidContext } from "../components/AppContext";
 import ProfilComponent from "../components/Profil/ProfilComponent";
 
 const Profil = () => {
+  const uid = useContext(UidContext);
+
   return (
     <div className="profil-page">
-      <ProfilComponent />
+      {uid ? (
+        <>
+          <ProfilComponent />
+        </>
+      ) : (
+        <h1>Vous n'êtes pas connecté !</h1>
+      )}
     </div>
   );
 };

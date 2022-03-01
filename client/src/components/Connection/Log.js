@@ -19,22 +19,23 @@ const Log = () => {
   return (
     <div className="connection-form">
       <div className="form-container">
-        <ul>
-          <li
+        <div className="btn-container">
+          <div
             onClick={handleModals}
             id="register"
             className={signFormModal ? "active-btn" : null}
           >
             S'inscrire
-          </li>
-          <li
+          </div>
+          <div
             onClick={handleModals}
             id="login"
             className={logFormModal ? "active-btn" : null}
           >
             Se connecter
-          </li>
-        </ul>
+          </div>
+        </div>
+
         {signFormModal && <SignForm />}
         {logFormModal && <LogForm />}
       </div>

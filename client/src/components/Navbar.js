@@ -21,25 +21,27 @@ const Navbar = () => {
         </div>
 
         {uid ? (
-          <ul>
-            <li></li>
-            <li className="welcome">
-              <NavLink to="/profil">
-                <h5>Bienvenue {userData.user_name}</h5>
-              </NavLink>
-            </li>
+          <div className="profil-detail">
+            <NavLink to="/profil">
+              <div className="welcome">
+                {userData.user_picture ? (
+                  <img src={userData.user_picture} alt="profil-pic" />
+                ) : (
+                  <img src="./img/default.png" alt="profil-pic" />
+                )}
+
+                <h5>{userData.user_name}</h5>
+              </div>
+            </NavLink>
             <Logout />
-          </ul>
+          </div>
         ) : (
-          <ul>
-            <li></li>
-            <li>
-              Se connecter
-              <NavLink to="/connexion">
-                <img src="./img/icons/login.svg" alt="logout" />
-              </NavLink>
-            </li>
-          </ul>
+          <NavLink to="/connexion">
+            <div className="connection-require">
+              Veuillez vous connecter :
+              <img src="./img/icons/login.svg" alt="login" />
+            </div>
+          </NavLink>
         )}
       </div>
     </nav>
