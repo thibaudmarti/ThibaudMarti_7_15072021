@@ -1,6 +1,7 @@
 .post-card {
   border: 1px solid blue;
   padding: 5px;
+  height: 500px;
 
   .top-part {
     display: flex;
@@ -8,10 +9,10 @@
 
     .user-part {
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
       align-items: center;
       min-width: 100px;
-      h2 {
+      h3 {
         margin: 0 0 0 10px;
       }
       .user-pic {
@@ -26,6 +27,16 @@
         }
       }
     }
+
+    .like-part {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .numberLike {
+        font-size: 1.5rem;
+      }
+    }
+
     .anim_heart {
       position: relative;
       display: flex;
@@ -88,9 +99,15 @@
   }
 
   .content-part {
+    height: 100px;
     p {
       font-family: $font-2;
       text-align: left;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 }

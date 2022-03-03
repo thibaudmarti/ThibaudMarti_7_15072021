@@ -35,7 +35,6 @@ const Log = () => {
             Se connecter
           </div>
         </div>
-
         {signFormModal && <SignForm />}
         {logFormModal && <LogForm />}
       </div>

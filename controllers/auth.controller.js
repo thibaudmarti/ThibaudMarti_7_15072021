@@ -114,7 +114,7 @@ exports.deleteUser = (req, res, next) => {
 
   const sqlDeleteImg = `SELECT user_picture FROM user WHERE id_user = ?`;
   pool.query(sqlDeleteImg, [id_user], (err, result) => {
-    console.log(result);
+    // console.log(result);
     if (result[0].user_picture) {
       const postPic = result[0].user_picture;
       const picName = postPic.split("./uploads/profil/")[1];
@@ -129,8 +129,10 @@ exports.deleteUser = (req, res, next) => {
   pool.query(sqlDelete, [id_user], (err, result) => {
     if (err) return res.status(404).json({ err });
     console.log("user deleted");
+    // res.cookie("jwt", "", { maxAge: 1 });
     res.clearCookie("jwt");
     res.status(200).json({ message: "user deleted" });
+    // window.location = "/";
   });
 };
 

@@ -15,8 +15,10 @@ router.put("/:id", postCtrl.updatePostContent);
 // router.get("/image/:id", auth, postCtrl.getOneImage);
 
 // Like / Unlike
+router.get("/likes", postCtrl.getAllLikes);
+router.get("/like/:id", postCtrl.getOneLike);
 router.patch("/:id/like", postCtrl.likePost);
 router.post("/:id/postLikedByUser", postCtrl.postLikedByUser);
-router.get("/:id/countLike", postCtrl.countLikes);
+router.get("/:id/countLikes", postCtrl.countLikes);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateJob, updateName } from "../../actions/user.actions";
+import { deleteUser, updateJob, updateName } from "../../actions/user.actions";
 import UploadImg from "./UploadImg";
 
 const ProfilComponent = () => {
@@ -9,6 +9,7 @@ const ProfilComponent = () => {
   const [job, setJob] = useState("");
   const [updateFormName, setUpdateFormName] = useState(false);
   const [updateFormJob, setUpdateFormJob] = useState(false);
+
   const dispatch = useDispatch();
 
   const handleUpdateName = () => {
@@ -19,6 +20,15 @@ const ProfilComponent = () => {
   const handleUpdateJob = () => {
     dispatch(updateJob(userData.id_user, job));
     setUpdateFormJob(false);
+  };
+
+  const handleDeleteUser = () => {
+    if (window.confirm("Souhaitez vous supprimer votre compte ?")) {
+      dispatch(deleteUser(userData.id_user));
+      window.location.reload();
+    } else {
+      window.location.reload();
+    }
   };
 
   return (
@@ -84,6 +94,10 @@ const ProfilComponent = () => {
               </>
             )}
           </div>
+        </div>
+        <div className="delete-container">
+          <h3>Supprimer le compte ?</h3>
+          <button onClick={handleDeleteUser}>Supprimer</button>
         </div>
       </div>
     </div>

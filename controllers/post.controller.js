@@ -112,13 +112,39 @@ exports.deleteOnePost = (req, res, next) => {
 
 // // Like & unlike a post
 
+exports.getAllLikes = (req, res, next) => {
+  const sql = "SELECT * FROM likes l, post p WHERE l.like_post = p.id_post";
+  pool.query(sql, (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+
+    res.status(200).json(result);
+  });
+};
+
+exports.getOneLike = (req, res, next) => {
+  const { like_author } = req.body;
+  const { id: like_post } = req.params;
+  const sql =
+    "SELECT * FROM likes l WHERE l.like_author = ? AND l.like_post = ?";
+  pool.query(sql, [like_author, like_post], (err, result) => {
+    if (err) {
+      res.status(404).json({ err });
+      throw err;
+    }
+    res.status(200).json(result);
+  });
+};
+
 exports.likePost = (req, res) => {
   const { like_author } = req.body;
   const { id: like_post } = req.params;
-  console.log(req.params);
+  // console.log(req.params);
   const sqlSelect = `SELECT * FROM likes l WHERE l.like_author = ? AND l.like_post = ?`;
   pool.query(sqlSelect, [like_author, like_post], (err, result) => {
-    console.log(result);
+    // console.log(result);
     if (err) {
       console.log(err);
       res.status(404).json({ err });

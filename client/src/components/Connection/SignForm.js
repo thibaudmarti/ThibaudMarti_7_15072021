@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import LogForm from "./LogForm";
 
 const SignForm = () => {
   const [formSubmit, setFormSubmit] = useState(false);
@@ -55,9 +54,8 @@ const SignForm = () => {
     <>
       {formSubmit ? (
         <>
-          <LogForm />
           <span></span>
-          <h4 className="succes">
+          <h4 className="success">
             Inscription réussie, veuilez vous connecter
           </h4>
         </>

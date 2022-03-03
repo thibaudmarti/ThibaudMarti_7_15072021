@@ -3,6 +3,7 @@ import {
   UPLOAD_PICTURE,
   UPDATE_NAME,
   UPDATE_JOB,
+  DELETE_USER,
 } from "../actions/user.actions";
 
 const initialState = {};
@@ -26,6 +27,8 @@ export default function userReducer(state = initialState, action) {
         ...state,
         user_job: action.payload,
       };
+    case DELETE_USER:
+      return { ...state };
     default:
       return state;
   }

@@ -4,6 +4,7 @@ export const GET_USER = "GET_USER";
 export const UPLOAD_PICTURE = "UPLOAD_PICTURE";
 export const UPDATE_NAME = "UPDATE_NAME";
 export const UPDATE_JOB = "UPDATE_JOB";
+export const DELETE_USER = "DELETE_USER";
 
 export const getUser = (uid) => {
   return (dispatch) => {
@@ -11,7 +12,7 @@ export const getUser = (uid) => {
       .get(`${process.env.REACT_APP_API_URL}api/user/${uid}`)
       .then((res) => {
         // console.log(res);
-        console.log(res.data);
+        // console.log(res.data);
         dispatch({ type: GET_USER, payload: res.data });
       })
       .catch((err) => console.log(err));
@@ -54,6 +55,17 @@ export const updateJob = (id_user, user_job) => {
       })
       .then((res) => {
         dispatch({ type: UPDATE_JOB, payload: user_job });
+      })
+      .catch((err) => console.log(err));
+  };
+};
+
+export const deleteUser = (id_user) => {
+  return (dispatch) => {
+    return axios
+      .delete(`${process.env.REACT_APP_API_URL}api/auth/${id_user}`)
+      .then((res) => {
+        dispatch({ type: DELETE_USER, payload: { id_user } });
       })
       .catch((err) => console.log(err));
   };
