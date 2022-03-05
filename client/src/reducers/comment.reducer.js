@@ -1,10 +1,10 @@
-import { GET_LIKES } from "../actions/like.actions";
+import { GET_COMMENTS } from "../actions/comment.actions";
 
 const initialState = {};
 
 export default function likeReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_LIKES:
+    case GET_COMMENTS:
       return action.payload;
 
     default:

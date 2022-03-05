@@ -56,7 +56,7 @@ exports.createPost = (req, res, next) => {
 
 exports.getAllPosts = (req, res, next) => {
   const sql =
-    "SELECT * FROM post p, user u WHERE u.active=1 AND p.post_author = u.id_user "; //ORDER BY date_creation DESC;
+    "SELECT * FROM post p, user u WHERE u.active=1 AND p.post_author = u.id_user ORDER BY p.id_post DESC"; //ORDER BY date_creation DESC;
   pool.query(sql, (err, result) => {
     if (err) {
       res.status(404).json({ err });

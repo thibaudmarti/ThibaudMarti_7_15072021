@@ -1,77 +1,62 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
+  countLikes,
   getAllLikes,
-  getOneLike,
   likePost,
   postLikedByUser,
 } from "../../actions/like.actions";
 import { UidContext } from "../AppContext";
 
 const LikeInput = ({ post }) => {
+  const likeData = useSelector((state) => state.likeReducer);
+  // const [loadLike, setLoadLike] = useState(true);
+  const [countLike, setCountLike] = useState(null);
   const [liked, setLiked] = useState(false);
-  const userData = useSelector((state) => state.userReducer);
-  // const likeData = useSelector((state) => state.likeReducer);
   const uid = useContext(UidContext);
   const dispatch = useDispatch();
 
-  // const [isLiked, setIsLiked] = useState(false);
-
-  //   const like = () => {
-  //     dispatch(likePost(post.id_post, uid));
-  //     setLiked(true);
-  //   };
-
-  // const postLiked = () => {
-  //   postLikedByUser(post.id_post, uid);
-  //   // setLiked(true);
-  // };
-
-  // const isAlreadyLiked = () => {
-  //   // console.log(post);
-  //   dispatch(getOneLike(post.id_post, userData.id_user));
-  // };
-
   const likeThisPost = () => {
-    dispatch(likePost(post.id_post, userData.id_user));
-    setLiked(!liked);
+    dispatch(likePost(post.id_post, uid))
+      .then(() => dispatch(getAllLikes()))
+      .then(() => getLikesNb())
+      .then(() => checkLikes());
   };
 
-  const postLikedByUser = () => {
-    return axios
-      .post(
-        `${process.env.REACT_APP_API_URL}api/post/${post.id_post}/postLikedByUser`,
-        { like_author: uid }
-      )
-      .then((res) => {
-        // console.log(res.data[0]);
-        if (res.data[0] === undefined) {
-          return setLiked(false);
-        } else {
-          return setLiked(true);
-        }
-        // console.log(userData.id_user);
-        // console.log(uid);
-      })
-      .catch((err) => console.log(err));
+  const checkLikes = async () => {
+    const response = await dispatch(postLikedByUser(post.id_post, uid));
+    // console.log(response.data[0]);
+    if (response.data[0]) {
+      setLiked(true);
+    } else {
+      setLiked(false);
+    }
+  };
+
+  const getLikesNb = async () => {
+    const response = await dispatch(countLikes(post.id_post));
+    // console.log(response);
+    setCountLike(response[0].total);
   };
 
   useEffect(() => {
-    postLikedByUser();
-  }, []);
+    checkLikes();
+    getLikesNb();
+  }, [countLike, liked]);
 
   return (
     <div>
       {liked && (
         <div>
           <button onClick={likeThisPost}>liked</button>
+          <div>{countLike}</div>
         </div>
       )}
       {liked === false && (
         <div>
           <button onClick={likeThisPost}>not liked</button>
+          <div>{countLike}</div>
         </div>
       )}
     </div>

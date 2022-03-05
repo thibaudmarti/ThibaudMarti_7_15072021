@@ -11,7 +11,7 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
-store.dispatch(getAllLikes());
-store.dispatch(getPosts());
+// store.dispatch(getAllLikes());
+// store.dispatch(getPosts());
 
 export default store;

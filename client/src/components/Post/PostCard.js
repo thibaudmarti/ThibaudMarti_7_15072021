@@ -1,21 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getAllLikes,
-  likePost,
-  postLikedByUser,
-} from "../../actions/like.actions";
+// import {
+//   getAllLikes,
+//   likePost,
+//   postLikedByUser,
+// } from "../../actions/like.actions";
 import { deletePost, updatePost } from "../../actions/post.actions";
-import { UidContext } from "../AppContext";
+import { getComments } from "../../actions/comment.actions";
+
+import CommentContainer from "./CommentContainer";
+// import { UidContext } from "../AppContext";
 import LikeInput from "./LikeInput";
 
 const PostCard = ({ post }) => {
-  const likes = useSelector((state) => state.likeReducer);
   const userData = useSelector((state) => state.userReducer);
+  // const comments = useSelector((state) => state.commentReducer);
+
   const [isUpdated, setIsUpdated] = useState(false);
   const [textUpdate, setTextUpdate] = useState(null);
-  const [liked, setLiked] = useState(false);
-  const uid = useContext(UidContext);
+  const [openComment, setOpenComment] = useState(false);
+  // const [liked, setLiked] = useState(false);
+  // const uid = useContext(UidContext);
   const dispatch = useDispatch();
 
   const updateItem = () => {
@@ -23,6 +28,13 @@ const PostCard = ({ post }) => {
       dispatch(updatePost(textUpdate, post.id_post));
     }
     setIsUpdated(false);
+  };
+
+  const getcom = async () => {
+    // console.log(post.id_post);
+    // if (comments[0]) {
+    await dispatch(getComments(post.id_post));
+    // }
   };
   // const handleLikePost = () => {
   //   dispatch(likePost(post.id_post, userData.id_user));
@@ -62,23 +74,27 @@ const PostCard = ({ post }) => {
     dispatch(deletePost(post.id_post));
   };
 
-  const likeThisPost = () => {
-    dispatch(likePost(post.id_post, userData.id_user));
-    setLiked(!liked);
-  };
+  // const likeThisPost = () => {
+  //   dispatch(likePost(post.id_post, userData.id_user));
+  //   setLiked(!liked);
+  // };
 
-  const postIsLikedByUser = () => {
-    dispatch(postLikedByUser(post.id_post, userData.id_user));
-  };
+  // const postIsLikedByUser = () => {
+  //   dispatch(postLikedByUser(post.id_post, userData.id_user));
+  // };
 
   // const filterLike = likes.filter((like) => like.like_author === uid);
 
   // useEffect(() => {
-  //   if (filterLike[0].like_author === uid) {
-  //     console.log(true);
-  //   }
-  //   // console.log(filterLike[0].like_author);
+  //   dispatch(getComments(post.id_post));
   // }, []);
+  // const lostFocus = () => {
+  //   if (openComment) {
+  //     setOpenComment(false);
+  //   } else {
+  //     setOpenComment(true);
+  //   }
+  // };
 
   return (
     <div className="post-card" key={post.id_post}>
@@ -90,27 +106,7 @@ const PostCard = ({ post }) => {
           <h3>{post.user_name}</h3>
         </div>
         <div className="like-part">
-          {/* {!isEmpty(likes[0]) &&
-            likes.filter((like) => {
-              return <LikeInput like={like} key={like.id_like} />;
-            })} */}
-          <LikeInput post={post} />
-          {/* {liked && (
-            <div>
-              <button onClick={likeThisPost}>liked</button>
-            </div>
-          )}
-          {liked === false && (
-            <div>
-              <button onClick={likeThisPost}>not liked</button>
-            </div>
-          )} */}
-          {/* <div className="numberLike">0</div>
-          <div className="anim_heart">
-            <input type="checkbox" onChange={handleLikePost} />
-            <i className="far fa-heart"></i>
-            <i className="fas fa-heart"></i>
-          </div> */}
+          <LikeInput post={post} key={post.id_post} />
         </div>
       </div>
       <div className="content-part">
@@ -136,14 +132,6 @@ const PostCard = ({ post }) => {
               </div>
             )}
           </>
-          // <>
-          //   <p onClick={() => setUpdateFormName(!updateFormName)}>
-          //     {userData.user_name}
-          //   </p>
-          //   <button onClick={() => setUpdateFormName(!updateFormName)}>
-          //     Modifier le nom
-          //   </button>
-          // </>
         )}
         {isUpdated && (
           <>
@@ -158,6 +146,18 @@ const PostCard = ({ post }) => {
           </>
         )}
         {post.post_image && <img src={post.post_image} alt="post-pic" />}
+      </div>
+      <div className="comment-part">
+        <button
+          onClick={() => {
+            setOpenComment(!openComment);
+            getcom();
+          }}
+        >
+          Voir les coms
+        </button>
+
+        {openComment && <CommentContainer post={post} />}
       </div>
     </div>
   );

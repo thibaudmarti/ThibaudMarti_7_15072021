@@ -2,7 +2,8 @@ const pool = require("../config/db.js");
 
 // CRUD comments
 exports.createComment = (req, res, next) => {
-  const { comment_post, comment_author, comment_content } = req.body;
+  const { comment_author, comment_content } = req.body;
+  const { id: comment_post } = req.params;
   console.log(req.body);
   const sql = `INSERT INTO comment ( comment_post, comment_author, comment_content) VALUES ( ?, ?, ?)`;
   pool.query(
