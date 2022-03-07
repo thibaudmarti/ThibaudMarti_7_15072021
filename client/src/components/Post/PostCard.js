@@ -1,26 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import {
-//   getAllLikes,
-//   likePost,
-//   postLikedByUser,
-// } from "../../actions/like.actions";
 import { deletePost, updatePost } from "../../actions/post.actions";
 import { getComments } from "../../actions/comment.actions";
-
 import CommentContainer from "./CommentContainer";
-// import { UidContext } from "../AppContext";
 import LikeInput from "./LikeInput";
 
 const PostCard = ({ post }) => {
   const userData = useSelector((state) => state.userReducer);
-  // const comments = useSelector((state) => state.commentReducer);
 
   const [isUpdated, setIsUpdated] = useState(false);
   const [textUpdate, setTextUpdate] = useState(null);
   const [openComment, setOpenComment] = useState(false);
-  // const [liked, setLiked] = useState(false);
-  // const uid = useContext(UidContext);
+
   const dispatch = useDispatch();
 
   const updateItem = () => {
@@ -31,70 +22,12 @@ const PostCard = ({ post }) => {
   };
 
   const getcom = async () => {
-    // console.log(post.id_post);
-    // if (comments[0]) {
     await dispatch(getComments(post.id_post));
-    // }
   };
-  // const handleLikePost = () => {
-  //   dispatch(likePost(post.id_post, userData.id_user));
-  // };
-
-  // const handleCountLikes = () => {
-  //   dispatch(countLikes(post.id_post));
-  // };
-
-  // const [loadLikes, setLoadLikes] = useState(true);
-  // const dispatch = useDispatch();
-  // const likeData = useSelector((state) => state.likeReducer);
-
-  // useEffect(() => {
-  //   if (loadLikes) {
-  //     dispatch(getAllLikes());
-  //     setLoadLikes(false);
-  //   }
-  // }, [loadLikes, dispatch]);
-  // const likeOfThisPost = () => {};
-
-  // const userLikeThisPost = () => {
-  //   if (
-  //     dispatch(postLikedByUser(post.id_post, userData.id_user)) ===
-  //     { like_author: userData.id_user, like_post: post.id_post }
-  //   ) {
-  //     setLiked(true);
-  //   } else {
-  //     setLiked(false);
-  //   }
-  // };
-  // useEffect(() => {
-  //   postIsLikedByUser();
-  // }, []);
 
   const deleteThisPost = () => {
     dispatch(deletePost(post.id_post));
   };
-
-  // const likeThisPost = () => {
-  //   dispatch(likePost(post.id_post, userData.id_user));
-  //   setLiked(!liked);
-  // };
-
-  // const postIsLikedByUser = () => {
-  //   dispatch(postLikedByUser(post.id_post, userData.id_user));
-  // };
-
-  // const filterLike = likes.filter((like) => like.like_author === uid);
-
-  // useEffect(() => {
-  //   dispatch(getComments(post.id_post));
-  // }, []);
-  // const lostFocus = () => {
-  //   if (openComment) {
-  //     setOpenComment(false);
-  //   } else {
-  //     setOpenComment(true);
-  //   }
-  // };
 
   return (
     <div className="post-card" key={post.id_post}>
@@ -131,6 +64,21 @@ const PostCard = ({ post }) => {
                 </button>
               </div>
             )}
+            {userData.user_admin === 1 && (
+              <div>
+                <button
+                  onClick={() => {
+                    if (
+                      window.confirm("Voulez-vous vraiment supprimer ce post ?")
+                    ) {
+                      deleteThisPost();
+                    }
+                  }}
+                >
+                  Supprimer ce post
+                </button>
+              </div>
+            )}
           </>
         )}
         {isUpdated && (
@@ -146,6 +94,17 @@ const PostCard = ({ post }) => {
           </>
         )}
         {post.post_image && <img src={post.post_image} alt="post-pic" />}
+        {post.post_video && (
+          <iframe
+            width="500"
+            height="300"
+            src={post.post_video}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={post.id_post}
+          ></iframe>
+        )}
       </div>
       <div className="comment-part">
         <button

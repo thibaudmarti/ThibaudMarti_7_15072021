@@ -8,11 +8,9 @@ const userRoutes = require("./routes/user.routes");
 const postRoutes = require("./routes/post.routes");
 const authRoutes = require("./routes/auth.routes");
 const commentRoutes = require("./routes/comment.routes");
-// const { requireAuth } = require("./middlewares/auth.middleware");
 const authJwtid = require("./middlewares/authJwtid.middleware");
-// const auth = require("./middlewares/auth.middleware");
+const admin = require("./middlewares/admin.middleware");
 
-const path = require("path");
 // import morgan
 const morgan = require("morgan");
 
@@ -45,14 +43,13 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/jwtid", authJwtid, (req, res) => {
-  // console.log(res.locals.user);
-  // console.log(res.locals.user.id_user);
-  res.status(200).json(res.locals.user.id_user);
+app.get("/adminInsert", admin, (req, res) => {
+  res.status(201);
 });
 
-// static image resource management
-// app.use("/image/:id", express.static(path.join(__dirname, "images")));
+app.get("/jwtid", authJwtid, (req, res) => {
+  res.status(200).json(res.locals.user.id_user);
+});
 
 // routes
 app.use("/api/auth", authRoutes);

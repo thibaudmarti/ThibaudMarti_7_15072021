@@ -1,27 +1,10 @@
 const pool = require("../config/db.js");
 
 const fs = require("fs");
-// exports.readPost = (req, res) => {
-//   PostModel.find((err, docs) => {
-//     if (!err) {
-//       res.send(docs);
-//     } else {
-//       console.log("Error to get data : " + err);
-//     }
-//   });
-// };
-
-// exports.readPost = (req, res, next) => {
-//   const sql = `SELECT * FROM post`;
-//   pool.execute(sql, (err, result) => {
-//     console.log(result);
-//     res.status(200).json(result);
-//   });
-// };
 
 exports.createPost = (req, res, next) => {
   let { body, file } = req;
-  // console.log(body);
+
   if (!file) {
     const sqlInsert = "INSERT INTO post SET ?";
     pool.query(sqlInsert, [body], (err, result) => {
@@ -37,26 +20,41 @@ exports.createPost = (req, res, next) => {
   // post_id will be equal to the post inserted, and will be reused to link the image at the correct post in the below query
 
   if (file) {
-    let { filename } = req.file;
-    destination = `./uploads/posts/` + filename;
-    const sqlInsertImage = `INSERT INTO post (post_content, post_author, post_image) VALUES (?, ?, ?)`;
-    pool.query(
-      sqlInsertImage,
-      [body.post_content, body.post_author, destination],
-      (err, result) => {
-        if (err) {
-          res.status(404).json({ err });
-          throw err;
+    if (
+      file.mimetype != "image/jpg" &&
+      file.mimetype != "image/png" &&
+      file.mimetype != "image/jpeg"
+    ) {
+      res.status(200).json({
+        message: "Format Invalide, format compatible : .jpg, .jpeg, ou .png",
+      });
+      // deleteImg(file.filename);
+    } else if (file.size > 1000000) {
+      res.status(200).json({
+        message:
+          "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 1 Mo",
+      });
+    } else {
+      let { filename } = req.file;
+      destination = `./uploads/posts/` + filename;
+      const sqlInsertImage = `INSERT INTO post (post_content, post_author, post_image) VALUES (?, ?, ?)`;
+      pool.query(
+        sqlInsertImage,
+        [body.post_content, body.post_author, destination],
+        (err, result) => {
+          if (err) {
+            res.status(404).json({ err });
+          }
+          res.status(200).json(result);
         }
-        res.status(200).json(result);
-      }
-    );
+      );
+    }
   }
 };
 
 exports.getAllPosts = (req, res, next) => {
   const sql =
-    "SELECT * FROM post p, user u WHERE u.active=1 AND p.post_author = u.id_user ORDER BY p.id_post DESC"; //ORDER BY date_creation DESC;
+    "SELECT * FROM post p, user u WHERE p.post_author = u.id_user ORDER BY p.id_post DESC";
   pool.query(sql, (err, result) => {
     if (err) {
       res.status(404).json({ err });
@@ -120,20 +118,6 @@ exports.getAllLikes = (req, res, next) => {
       throw err;
     }
 
-    res.status(200).json(result);
-  });
-};
-
-exports.getOneLike = (req, res, next) => {
-  const { like_author } = req.body;
-  const { id: like_post } = req.params;
-  const sql =
-    "SELECT * FROM likes l WHERE l.like_author = ? AND l.like_post = ?";
-  pool.query(sql, [like_author, like_post], (err, result) => {
-    if (err) {
-      res.status(404).json({ err });
-      throw err;
-    }
     res.status(200).json(result);
   });
 };

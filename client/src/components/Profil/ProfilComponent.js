@@ -9,24 +9,45 @@ const ProfilComponent = () => {
   const [job, setJob] = useState("");
   const [updateFormName, setUpdateFormName] = useState(false);
   const [updateFormJob, setUpdateFormJob] = useState(false);
+  const nameValidation = document.querySelector(".namevalidation.error");
+  const jobValidation = document.querySelector(".jobvalidation.error");
+  let alphaRegex = /^[\sa-z/-]{1,}$/i;
 
   const dispatch = useDispatch();
 
   const handleUpdateName = () => {
-    dispatch(updateName(userData.id_user, name));
-    setUpdateFormName(false);
+    if (name) {
+      if (alphaRegex.test(name) === true) {
+        dispatch(updateName(userData.id_user, name));
+        nameValidation.innerHTML = "";
+        setUpdateFormName(false);
+      } else {
+        nameValidation.innerHTML =
+          "Merci d'entrer un prénom valide (lettres et - uniquement).";
+      }
+    } else {
+      if (nameValidation) nameValidation.innerHTML = "Champ vide";
+    }
   };
 
   const handleUpdateJob = () => {
-    dispatch(updateJob(userData.id_user, job));
-    setUpdateFormJob(false);
+    if (job) {
+      if (alphaRegex.test(job) === true) {
+        dispatch(updateJob(userData.id_user, job));
+        jobValidation.innerHTML = "";
+        setUpdateFormJob(false);
+      } else {
+        jobValidation.innerHTML =
+          "Merci d'entrer un poste valide (lettres et - uniquement).";
+      }
+    } else {
+      if (jobValidation) jobValidation.innerHTML = "Champ vide";
+    }
   };
 
   const handleDeleteUser = () => {
     if (window.confirm("Souhaitez vous supprimer votre compte ?")) {
       dispatch(deleteUser(userData.id_user));
-      window.location.reload();
-    } else {
       window.location.reload();
     }
   };
@@ -68,6 +89,7 @@ const ProfilComponent = () => {
                 <button onClick={handleUpdateName}>
                   Valider modifications
                 </button>
+                <div className="namevalidation error"></div>
               </>
             )}
           </div>
@@ -91,14 +113,17 @@ const ProfilComponent = () => {
                   onChange={(e) => setJob(e.target.value)}
                 ></input>
                 <button onClick={handleUpdateJob}>Valider modifications</button>
+                <div className="jobvalidation error"></div>
               </>
             )}
           </div>
         </div>
-        <div className="delete-container">
-          <h3>Supprimer le compte ?</h3>
-          <button onClick={handleDeleteUser}>Supprimer</button>
-        </div>
+        {userData.user_admin === 0 && (
+          <div className="delete-container">
+            <h3>Supprimer le compte ?</h3>
+            <button onClick={handleDeleteUser}>Supprimer</button>
+          </div>
+        )}
       </div>
     </div>
   );

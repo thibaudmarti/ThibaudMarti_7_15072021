@@ -1,8 +1,6 @@
 import axios from "axios";
 
 export const GET_LIKES = "GET_LIKES";
-export const GET_ONE_LIKE = "GET_ONE_LIKE";
-
 export const LIKE_POST = "LIKE_POST";
 export const COUNT_LIKES = "COUNT_LIKES";
 export const POST_LIKED_BY_USER = "POST_LIKED_BY_USER";
@@ -17,18 +15,6 @@ export const getAllLikes = () => {
       .catch((err) => console.log(err));
   };
 };
-// export const getOneLike = (id_post, id_user) => {
-//   return (dispatch) => {
-//     return axios
-//       .get(`${process.env.REACT_APP_API_URL}api/post/like/${id_post}`, {
-//         id_user,
-//       })
-//       .then((res) => {
-//         dispatch({ type: GET_ONE_LIKE, payload: res.data });
-//       })
-//       .catch((err) => console.log(err));
-//   };
-// };
 
 export const likePost = (like_post, like_author) => {
   return (dispatch) => {

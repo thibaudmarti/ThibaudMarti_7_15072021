@@ -7,9 +7,21 @@ import { getUser } from "./actions/user.actions";
 
 const App = () => {
   const [uid, setUid] = useState(null);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const adminInsertion = async () => {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}adminInsert`)
+        .then((res) => {
+          // console.log("no error");
+        })
+        .catch((err) => {
+          // console.log("admin already there !");
+        });
+    };
+
     const fetchToken = async () => {
       await axios({
         method: "get",
@@ -17,14 +29,19 @@ const App = () => {
         withCredentials: true,
       })
         .then((res) => {
-          setUid(res.data);
+          if (res.data) {
+            setUid(res.data);
+          } else {
+            console.log("no token");
+          }
         })
         .catch((err) => {
-          console.log("No token");
+          console.log(err);
         });
     };
 
     fetchToken();
+    adminInsertion();
     if (uid) dispatch(getUser(uid));
   }, [uid, dispatch]); //uid, dispatch
 

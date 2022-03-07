@@ -4,32 +4,38 @@ import axios from "axios";
 const LogForm = () => {
   const [user_email, setEmail] = useState("");
   const [user_password, setPassword] = useState("");
+  const validationError = document.querySelector(".validation.error");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const emailError = document.querySelector(".email.error");
-    const passwordError = document.querySelector(".password.error");
 
-    axios({
-      method: "post",
-      url: `${process.env.REACT_APP_API_URL}api/auth/login`,
-      data: {
-        user_email,
-        user_password,
-      },
-      withCredentials: true,
-    })
-      .then((res) => {
-        if (res.data.errors) {
-          emailError.innerHTML = res.data.errors.email;
-          passwordError.innerHTML = res.data.errors.password;
-        } else {
-          window.location = "/";
-        }
+    if (user_email && user_password) {
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_API_URL}api/auth/login`,
+        data: {
+          user_email,
+          user_password,
+        },
+        withCredentials: true,
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          if (res.data.message) {
+            if (res.data.message.includes("email")) {
+              validationError.innerHTML = res.data.message;
+            }
+          } else {
+            validationError.innerHTML = "";
+            window.location = "/";
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      validationError.innerHTML =
+        "Merci d'entrer votre email et votre mot de passe !";
+    }
   };
   return (
     <form action="" onSubmit={handleLogin} id="login-form">
@@ -56,6 +62,7 @@ const LogForm = () => {
       <div className="password error"></div>
       <br />
       <input type="submit" value="Se connecter" />
+      <div className="validation error"></div>
     </form>
   );
 };

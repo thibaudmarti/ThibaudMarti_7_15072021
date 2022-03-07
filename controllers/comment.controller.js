@@ -4,7 +4,7 @@ const pool = require("../config/db.js");
 exports.createComment = (req, res, next) => {
   const { comment_author, comment_content } = req.body;
   const { id: comment_post } = req.params;
-  console.log(req.body);
+
   const sql = `INSERT INTO comment ( comment_post, comment_author, comment_content) VALUES ( ?, ?, ?)`;
   pool.query(
     sql,
@@ -19,18 +19,6 @@ exports.createComment = (req, res, next) => {
     }
   );
 };
-
-// exports.getOneComment = (req, res) => {
-//   const id_comment = req.params.id;
-//   const sql = `SELECT * FROM comment WHERE comment.id_comment = ?`;
-//   pool.query(sql, [id_comment], (err, result) => {
-//     if (err) {
-//       res.status(404).json({ err });
-//       throw err;
-//     }
-//     res.status(200).json(result);
-//   });
-// };
 
 exports.deleteOneComment = (req, res) => {
   const id_comment = req.params.id;

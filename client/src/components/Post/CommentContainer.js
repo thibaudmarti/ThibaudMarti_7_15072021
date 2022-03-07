@@ -38,7 +38,6 @@ const CommentContainer = ({ post }) => {
 
   useEffect(() => {
     // dispatch(getComments(post.id_post));
-    console.log(userData);
     if (comments[0]) {
       if (comments[0].comment_post === post.id_post) {
         // console.log(comments[0].comment_post);
@@ -54,7 +53,7 @@ const CommentContainer = ({ post }) => {
       // setNoComment(true);
       // setFormComment(true);
     }
-  }, [comments, dispatch]);
+  }, [comments, dispatch, post.id_post]);
 
   return (
     <div>

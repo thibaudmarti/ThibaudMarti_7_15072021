@@ -10,17 +10,17 @@ CREATE TABLE IF NOT EXISTS `user` (
     `user_email` VARCHAR(255) NOT NULL UNIQUE,
     `user_password` VARCHAR(255) NOT NULL,
     `user_job` VARCHAR(255) NOT NULL,
-    `active` INT DEFAULT 1,
     `user_picture` VARCHAR(255),
     `user_admin` INT NOT NULL DEFAULT 0,
     PRIMARY KEY (`id_user`)
-    -- FOREIGN KEY (`user_role`) REFERENCES `role` (`id_role`) ON DELETE CASCADE 
 );
+
 
 CREATE TABLE IF NOT EXISTS  `post` (
     `id_post` INT NOT NULL AUTO_INCREMENT,
     `post_content` TEXT NOT NULL,
     `post_image` VARCHAR(255),
+    `post_video` VARCHAR(255),
     `post_author` INT NOT NULL,
     PRIMARY KEY (`id_post`),
     FOREIGN KEY (`post_author`) REFERENCES `user` (`id_user`) ON DELETE CASCADE    
@@ -45,10 +45,10 @@ CREATE TABLE IF NOT EXISTS `likes` (
     FOREIGN KEY (`like_post`) REFERENCES `post` (`id_post`) ON DELETE CASCADE
 );
 
--- CREATE TABLE IF NOT EXISTS `role` (
---     `id_role` INT NOT NULL AUTO_INCREMENT,
---     `role_name` VARCHAR(155) NOT NULL,
---     -- `role_user` INT NOT NULL,
---     PRIMARY KEY (`id_role`),
---     -- FOREIGN KEY (`role_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE 
--- );
+
+INSERT INTO `user` (`user_name`, `user_email`, `user_password`, `user_job`, `user_admin`)
+ VALUES
+ ('Admin1', 'Admin1@gmail.com', 'password', 'Moderator', 1),
+ ('Admin2', 'Admin2@gmail.com', 'password', 'Moderator', 1),
+ ('Admin3', 'Admin3@gmail.com', 'password', 'Moderator', 1),
+ ('Admin4', 'Admin4@gmail.com', 'password', 'Moderator', 1);

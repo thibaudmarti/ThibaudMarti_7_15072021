@@ -6,7 +6,7 @@ import { isEmpty } from "./Utils";
 
 const Thread = () => {
   const [loadPost, setLoadPost] = useState(true);
-  const [count, setCount] = useState(2);
+  const [count, setCount] = useState(5);
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.postReducer);
 
@@ -23,7 +23,7 @@ const Thread = () => {
     if (loadPost) {
       dispatch(getPosts(count));
       setLoadPost(false);
-      setCount(count + 1);
+      setCount(count + 5);
     }
 
     window.addEventListener("scroll", loadMore);

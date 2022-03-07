@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const SignForm = () => {
@@ -8,25 +8,91 @@ const SignForm = () => {
   const [user_email, setEmail] = useState("");
   const [user_password, setPassword] = useState("");
   const [controlPassword, setControlPassword] = useState("");
+  const [validation, setFormValidation] = useState(false);
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    const nameError = document.querySelector(".name.error");
+  useEffect(() => {
+    let passwordRegex =
+      /^(?=.*?[a-z])(?=(.*[A-Z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/;
+    let alphaRegex = /^[\sa-z/-]{1,}$/i;
+    let emailRegex = /^[\w_.-]+@[\w-_.]+\.[\w.]{2,}$/i;
     const emailError = document.querySelector(".email.error");
-    // const jobError = document.querySelector(".job.error");
+    const nameError = document.querySelector(".name.error");
+    const jobError = document.querySelector(".job.error");
     const passwordError = document.querySelector(".password.error");
     const passwordConfirmError = document.querySelector(
       ".password-confirm.error"
     );
+    const formValidation = async () => {
+      if (
+        alphaRegex.test(user_name) === true &&
+        alphaRegex.test(user_job) === true &&
+        emailRegex.test(user_email) === true &&
+        passwordRegex.test(user_password) === true &&
+        controlPassword === user_password
+      ) {
+        setFormValidation(true);
+      } else {
+        setFormValidation(false);
+      }
+    };
 
-    // passwordConfirmError = "";
+    if (user_password) {
+      if (passwordRegex.test(user_password)) {
+        passwordError.innerHTML = "";
+      } else {
+        passwordError.innerHTML =
+          "Merci d'entrer un mot de passe valide avec une majuscule, un chiffre, un caractère spécial et de minimum 8 caractères";
+      }
+    }
+    if (user_email) {
+      if (emailRegex.test(user_email)) {
+        emailError.innerHTML = "";
+      } else {
+        emailError.innerHTML =
+          "Merci d'entrer un e-mail valide, ex: email@valide.com.";
+      }
+    }
+
+    if (user_name) {
+      if (alphaRegex.test(user_name)) {
+        nameError.innerHTML = "";
+      } else {
+        nameError.innerHTML =
+          "Merci d'entrer un prénom valide, ex: Martin (lettres et - uniquement).";
+      }
+    }
+    if (user_job) {
+      if (alphaRegex.test(user_job)) {
+        jobError.innerHTML = "";
+      } else {
+        jobError.innerHTML =
+          "Merci d'entrer un poste valide (lettres et - uniquement)";
+      }
+    }
 
     if (user_password !== controlPassword) {
       passwordConfirmError.innerHTML =
         "Les mots de passe ne correspondent pas.";
     } else {
-      await axios({
+      passwordConfirmError.innerHTML = "";
+    }
+
+    formValidation();
+  }, [
+    user_email,
+    user_name,
+    user_password,
+    user_job,
+    controlPassword,
+    validation,
+  ]);
+
+  const handleRegister = async (e) => {
+    const errorValidation = document.querySelector(".error-validation.error");
+    e.preventDefault();
+
+    if (validation) {
+      axios({
         method: "post",
         url: `${process.env.REACT_APP_API_URL}api/auth/signup`,
         data: {
@@ -37,16 +103,17 @@ const SignForm = () => {
         },
       })
         .then((res) => {
-          console.log(res);
-          if (res.data.errors) {
-            nameError.innerHTML = res.data.errors.name;
-            emailError.innerHTML = res.data.errors.email;
-            passwordError.innerHTML = res.data.errors.password;
+          if (res.data.message.includes("Email")) {
+            errorValidation.innerHTML = res.data.message;
           } else {
+            errorValidation.innerHTML = "";
             setFormSubmit(true);
           }
         })
         .catch((err) => console.log(err));
+    } else {
+      errorValidation.innerHTML =
+        "Tout les champs ne sont pas correctement rempli !";
     }
   };
 
@@ -117,6 +184,7 @@ const SignForm = () => {
           <div className="password-confirm error"></div>
           <br />
           <input type="submit" value="Valider inscription" />
+          <div className="error-validation error"></div>
         </form>
       )}
     </>

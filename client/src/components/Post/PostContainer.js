@@ -10,6 +10,7 @@ const PostContainer = () => {
   const [file, setFile] = useState();
   const userData = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
+  const postValidationError = document.querySelector(".postvalidation.error");
 
   const handleImage = (e) => {
     setPostImage(URL.createObjectURL(e.target.files[0]));
@@ -17,17 +18,49 @@ const PostContainer = () => {
     setPostVideo("");
   };
 
-  const handlePost = async () => {
+  const handlePost = async (e) => {
+    e.preventDefault();
     if (postContent || postImage || postVideo) {
       const data = new FormData();
       data.append("post_author", userData.id_user);
       data.append("post_content", postContent);
-      if (file) data.append("post_image", file);
-      // data.append('post_video', postVideo);
-
-      await dispatch(addPost(data));
-      dispatch(getPosts());
-      cancelPost();
+      data.append("post_video", postVideo);
+      if (file) {
+        data.append("post_image", file);
+        if (
+          file.type !== "image/jpg" &&
+          file.type !== "image/png" &&
+          file.type !== "image/jpeg"
+        ) {
+          postValidationError.innerHTML =
+            "Format Invalide, format compatible : .jpg, .jpeg, ou .png";
+        } else if (file.size > 1000000) {
+          postValidationError.innerHTML =
+            "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 1 Mo";
+        } else {
+          postValidationError.innerHTML = "";
+          await dispatch(addPost(data));
+          dispatch(getPosts());
+          cancelPost();
+        }
+      } else {
+        dispatch(addPost(data));
+        dispatch(getPosts());
+        cancelPost();
+      }
+      // await dispatch(addPost(data)).then((res) => {
+      //   if (res.message) {
+      //     if (res.message.includes("format")) {
+      //       return (postValidationError.innerHTML = res.message);
+      //     } else if (res.message.includes("taille")) {
+      //       return (postValidationError.innerHTML = res.message);
+      //     }
+      //   } else {
+      //     postValidationError.innerHTML = "";
+      //     dispatch(getPosts());
+      //     cancelPost();
+      //   }
+      // });
     } else {
       alert("pas de contenu");
     }
@@ -38,27 +71,30 @@ const PostContainer = () => {
     setPostImage("");
     setPostVideo("");
     setFile("");
-  };
-
-  const handleVideo = () => {
-    let findLink = postContent.split(" ");
-    for (let i = 0; i < findLink.length; i++) {
-      if (
-        findLink[i].includes("https://www.yout") ||
-        findLink[i].includes("https://yout")
-      ) {
-        let embed = findLink[i].replace("watch?v=", "embed/");
-        setPostVideo(embed.split("&")[0]);
-        findLink.splice(i, 1);
-        setPostContent(findLink.join(" "));
-        setPostImage("");
-      }
-    }
+    postValidationError.innerHTML = "";
   };
 
   useEffect(() => {
+    const handleVideo = () => {
+      let findLink = postContent.split(" ");
+      for (let i = 0; i < findLink.length; i++) {
+        if (findLink[i].includes("https://www.yout")) {
+          let embed = findLink[i].replace("watch?v=", "embed/");
+          setPostVideo(embed.split("&")[0]);
+          findLink.splice(i, 1);
+          setPostContent(findLink.join(" "));
+          setPostImage("");
+        } else if (findLink[i].includes("https://yout")) {
+          let nameVid = findLink[i].split(".be/")[1];
+          setPostVideo("https://www.youtube.com/embed/" + nameVid);
+          findLink.splice(i, 1);
+          setPostContent(findLink.join(" "));
+          setPostImage("");
+        }
+      }
+    };
     handleVideo();
-  }, [userData, postContent, postVideo]);
+  }, [postContent, postVideo]);
 
   return (
     <div className="post-container">
@@ -105,7 +141,7 @@ const PostContainer = () => {
             <button onClick={() => setPostVideo("")}>Suppr vid</button>
           )}
           <div className="send-part">
-            {postContent || postImage || postVideo > 20 ? (
+            {postContent || postImage || postVideo > 10 ? (
               <button className="cancel" onClick={cancelPost}>
                 Annuler
               </button>
@@ -113,6 +149,7 @@ const PostContainer = () => {
             <button className="send" onClick={handlePost}>
               Envoyer
             </button>
+            <div className="postvalidation error"></div>
           </div>
         </div>
       </div>
