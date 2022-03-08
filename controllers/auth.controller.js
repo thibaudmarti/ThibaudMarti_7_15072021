@@ -18,7 +18,6 @@ exports.signup = async (req, res) => {
       /^(?=.*?[a-z])(?=(.*[A-Z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/;
     let alphaRegex = /^[\sa-z/-]{1,}$/i;
     let emailRegex = /^[\w_.-]+@[\w-_.]+\.[\w.]{2,}$/i;
-
     const formValidation = async () => {
       if (
         alphaRegex.test(req.body.user_name) === true &&
@@ -56,7 +55,18 @@ exports.signup = async (req, res) => {
         res.status(400).json({ message: "error form" });
       }
     };
-    await formValidation();
+
+    if (req.body.user_admin) {
+      if (req.body.user_admin === 1) {
+        res.status(200).json({ message: "Vous ne pouvez pas devenir admin !" });
+      } else if (req.body.user_admin === 0) {
+        await formValidation();
+      } else {
+        res.status(400).json({ message: "Erreur : essayer user_admin = 0" });
+      }
+    } else {
+      await formValidation();
+    }
   } catch (err) {
     res.status(400).json({ err });
   }

@@ -44,25 +44,12 @@ const PostContainer = () => {
           cancelPost();
         }
       } else {
-        dispatch(addPost(data));
+        await dispatch(addPost(data));
         dispatch(getPosts());
         cancelPost();
       }
-      // await dispatch(addPost(data)).then((res) => {
-      //   if (res.message) {
-      //     if (res.message.includes("format")) {
-      //       return (postValidationError.innerHTML = res.message);
-      //     } else if (res.message.includes("taille")) {
-      //       return (postValidationError.innerHTML = res.message);
-      //     }
-      //   } else {
-      //     postValidationError.innerHTML = "";
-      //     dispatch(getPosts());
-      //     cancelPost();
-      //   }
-      // });
     } else {
-      alert("pas de contenu");
+      alert("Pas de contenu !");
     }
   };
 
@@ -100,7 +87,11 @@ const PostContainer = () => {
     <div className="post-container">
       <div className="user-part">
         <div className="user-pic">
-          <img src={userData.user_picture} alt="user-pic" />
+          {userData.user_picture ? (
+            <img src={userData.user_picture} alt="profil-pic" />
+          ) : (
+            <img src="./img/default.png" alt="profil-pic" />
+          )}
         </div>
         <h3>{userData.user_name}</h3>
       </div>
@@ -108,13 +99,12 @@ const PostContainer = () => {
         <textarea
           name="postContent"
           id="postContent"
-          placeholder="Message"
+          placeholder="Écrivez tous ce que vous voulez !"
           onChange={(e) => setPostContent(e.target.value)}
           value={postContent}
         />
       </div>
       <div className="check-part">
-        <p>{postContent}</p>
         {postImage && <img src={postImage} alt="post-pic" />}
         {postVideo && (
           <iframe
@@ -129,19 +119,25 @@ const PostContainer = () => {
       <div className="file-part">
         <div className="file-input">
           {isEmpty(postVideo) && (
-            <input
-              type="file"
-              id="file-image"
-              name="file"
-              accept=".jpg, .jpeg, .png"
-              onChange={(e) => handleImage(e)}
-            />
+            <div className="file-container">
+              <label htmlFor="file-image">
+                Pour postez une image cliquez ici :
+                <img src="./img/icons/picture.svg" alt="img" />
+              </label>
+              <input
+                type="file"
+                id="file-image"
+                name="file"
+                accept=".jpg, .jpeg, .png"
+                onChange={(e) => handleImage(e)}
+              />
+            </div>
           )}
           {postVideo && (
             <button onClick={() => setPostVideo("")}>Suppr vid</button>
           )}
           <div className="send-part">
-            {postContent || postImage || postVideo > 10 ? (
+            {postContent || postImage || postVideo > 20 ? (
               <button className="cancel" onClick={cancelPost}>
                 Annuler
               </button>

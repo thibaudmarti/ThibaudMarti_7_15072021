@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   countLikes,
@@ -10,8 +10,6 @@ import {
 import { UidContext } from "../AppContext";
 
 const LikeInput = ({ post }) => {
-  const likeData = useSelector((state) => state.likeReducer);
-  // const [loadLike, setLoadLike] = useState(true);
   const [countLike, setCountLike] = useState(null);
   const [liked, setLiked] = useState(false);
   const uid = useContext(UidContext);
@@ -23,7 +21,6 @@ const LikeInput = ({ post }) => {
       .then(() => getLikesNb())
       .then(() => checkLikes());
   };
-
   const checkLikes = async () => {
     const response = await dispatch(postLikedByUser(post.id_post, uid));
     // console.log(response.data[0]);
@@ -36,30 +33,43 @@ const LikeInput = ({ post }) => {
 
   const getLikesNb = async () => {
     const response = await dispatch(countLikes(post.id_post));
-    // console.log(response);
     setCountLike(response[0].total);
   };
 
   useEffect(() => {
+    const checkLikes = async () => {
+      const response = await dispatch(postLikedByUser(post.id_post, uid));
+      // console.log(response.data[0]);
+      if (response.data[0]) {
+        setLiked(true);
+      } else {
+        setLiked(false);
+      }
+    };
+
+    const getLikesNb = async () => {
+      const response = await dispatch(countLikes(post.id_post));
+      setCountLike(response[0].total);
+    };
     checkLikes();
     getLikesNb();
-  }, [countLike, liked]);
+  }, [countLike, liked, dispatch, post.id_post, uid]);
 
   return (
-    <div>
+    <>
       {liked && (
-        <div>
-          <button onClick={likeThisPost}>liked</button>
-          <div>{countLike}</div>
+        <div className="liked">
+          <i className="fas fa-heart" onClick={likeThisPost}></i>
+          <div className="numberLike">{countLike}</div>
         </div>
       )}
       {liked === false && (
-        <div>
-          <button onClick={likeThisPost}>not liked</button>
-          <div>{countLike}</div>
+        <div className="liked">
+          <i className="far fa-heart" onClick={likeThisPost}></i>
+          <div className="numberLike">{countLike}</div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

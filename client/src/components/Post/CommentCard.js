@@ -3,13 +3,26 @@ import React from "react";
 // import { deleteComment } from "../../actions/comment.actions";
 
 const CommentCard = ({ comment, post }) => {
-  // const userData = useSelector((state) => state.userReducer);
-  // const dispatch = useDispatch();
+  const logInfo = () => {
+    console.log(comment);
+    console.log(post);
+  };
 
   return (
-    <div>
-      {comment.comment_content}, {comment.comment_author},{post.id_post},{" "}
-      {post.post_author}
+    <div className="comment-card" onClick={logInfo}>
+      <div className="user-container">
+        <div className="user-com">
+          <div className="user-pic">
+            {comment.user_picture ? (
+              <img src={comment.user_picture} alt="profil-pic" />
+            ) : (
+              <img src="./img/default.png" alt="profil-pic" />
+            )}
+          </div>
+          <h5>{comment.user_name}</h5>
+        </div>
+      </div>
+      <div className="content-com">{comment.comment_content}</div>
     </div>
   );
 };

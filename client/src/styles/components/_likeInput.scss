@@ -1,0 +1,37 @@
+.liked {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .numberLike {
+    width: 30px;
+    font-size: 1.2rem;
+  }
+  .fas {
+    margin: 0 0.5rem;
+    opacity: 1;
+    transition-duration: 0.5s;
+    background: linear-gradient(171deg, $color-logo 0%, $color-1 78%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.5rem;
+    &:active {
+      transition-duration: 0.2s;
+      transform: scale(1.15);
+    }
+  }
+  .far {
+    margin: 0 0.5rem;
+    opacity: 1;
+    transition-duration: 0.5s;
+    background: linear-gradient(171deg, $color-1 0%, $color-logo 78%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.5rem;
+    &:active {
+      transition-duration: 0.2s;
+      transform: scale(1.15);
+    }
+  }
+}

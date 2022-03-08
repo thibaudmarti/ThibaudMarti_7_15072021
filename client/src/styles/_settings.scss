@@ -39,9 +39,11 @@ $shadow: rgb(218, 218, 219);
   }
 }
 body {
+  background: url(../../public/img/icon.png) fixed;
+  // background-color: rgba($black, 0.1);
   font-family: $font-2;
   line-height: 1.4rem;
-  background: $cream;
+  // background: $cream;
   color: $color-3;
 }
 .error {
@@ -58,41 +60,35 @@ a:visited {
   color: $color-3;
 }
 button,
-input[type="submit"] {
+input {
   background: $color-2;
   color: $color-1;
   font-family: $font-3;
   cursor: pointer;
   transition: 0.2s;
-  margin: 0;
-  padding: 10px 20px;
+  padding: 0.5rem 1rem;
   font-size: 1rem;
-  border-radius: 0.1rem;
+  border-radius: 0.3rem;
+
+  &:focus {
+    border: 1px dashed black;
+  }
 
   &:hover {
     background: $color-1;
     color: $color-2;
   }
 }
-
-input[type="checkbox"] {
-  box-shadow: none;
-  width: 20px;
-  margin: 10px 0;
-}
-input,
 textarea {
   resize: none;
-  border-radius: 20px;
-  width: 270px;
   font-family: $font-2;
   background: $white;
 }
-textarea {
-  &:focus {
-    box-shadow: 0 0 4px rgba(0, 22, 44, 0.1);
-  }
-}
+// textarea {
+//   &:focus {
+//     box-shadow: 0 0 4px rgba(0, 0, 0, 0.712);
+//   }
+// }
 // i {
 //   transition: 0.15s;
 

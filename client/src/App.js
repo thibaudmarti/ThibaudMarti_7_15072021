@@ -12,14 +12,7 @@ const App = () => {
 
   useEffect(() => {
     const adminInsertion = async () => {
-      await axios
-        .get(`${process.env.REACT_APP_API_URL}adminInsert`)
-        .then((res) => {
-          // console.log("no error");
-        })
-        .catch((err) => {
-          // console.log("admin already there !");
-        });
+      await axios.get(`${process.env.REACT_APP_API_URL}adminInsert`);
     };
 
     const fetchToken = async () => {

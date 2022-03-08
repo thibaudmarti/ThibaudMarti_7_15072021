@@ -2,6 +2,12 @@ const pool = require("../config/db.js");
 
 const fs = require("fs");
 
+const deleteImg = (filename) => {
+  fs.unlink(`client/public/uploads/posts/${filename}`, (err) => {
+    if (err) throw err;
+  });
+};
+
 exports.createPost = (req, res, next) => {
   let { body, file } = req;
 
@@ -25,11 +31,12 @@ exports.createPost = (req, res, next) => {
       file.mimetype != "image/png" &&
       file.mimetype != "image/jpeg"
     ) {
+      deleteImg(file.filename);
       res.status(200).json({
         message: "Format Invalide, format compatible : .jpg, .jpeg, ou .png",
       });
-      // deleteImg(file.filename);
     } else if (file.size > 1000000) {
+      deleteImg(file.filename);
       res.status(200).json({
         message:
           "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 1 Mo",

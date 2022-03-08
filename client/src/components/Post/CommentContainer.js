@@ -60,11 +60,10 @@ const CommentContainer = ({ post }) => {
       {comment &&
         comments.map((comment) => {
           return (
-            <div key={comment.id_comment}>
-              <div>{comment.id_comment}</div>
+            <div key={comment.id_comment} className="comment-container">
               <CommentCard comment={comment} post={post} />
               {userData.id_user === comment.comment_author && (
-                <div>
+                <div className="btn-delete">
                   <button
                     onClick={() => {
                       if (
@@ -76,7 +75,7 @@ const CommentContainer = ({ post }) => {
                       }
                     }}
                   >
-                    Supprimer ce com
+                    Supprimer le commentaire
                   </button>
                 </div>
               )}

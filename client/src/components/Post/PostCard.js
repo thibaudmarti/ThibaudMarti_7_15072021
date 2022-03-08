@@ -34,7 +34,11 @@ const PostCard = ({ post }) => {
       <div className="top-part">
         <div className="user-part">
           <div className="user-pic">
-            <img src={post.user_picture} alt="user-pic" />
+            {post.user_picture ? (
+              <img src={post.user_picture} alt="profil-pic" />
+            ) : (
+              <img src="./img/default.png" alt="profil-pic" />
+            )}
           </div>
           <h3>{post.user_name}</h3>
         </div>
@@ -45,12 +49,32 @@ const PostCard = ({ post }) => {
       <div className="content-part">
         {isUpdated === false && (
           <>
-            <p>{post.post_content}</p>
-            {userData.id_user === post.id_user && (
-              <div>
+            <div className="content-text">
+              {post.post_content && <p>{post.post_content}</p>}
+              {post.post_content && userData.id_user === post.id_user && (
                 <button onClick={() => setIsUpdated(!isUpdated)}>
                   Modifer le texte
                 </button>
+              )}
+            </div>
+            {post.post_image && (
+              <div className="post-pic">
+                <img src={post.post_image} alt="post-pic" />
+              </div>
+            )}
+            {post.post_video && (
+              <div className="post-video">
+                <iframe
+                  src={post.post_video}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title={post.id_post}
+                ></iframe>
+              </div>
+            )}
+            {userData.id_user === post.id_user && (
+              <div className="delete-btn">
                 <button
                   onClick={() => {
                     if (
@@ -83,27 +107,33 @@ const PostCard = ({ post }) => {
         )}
         {isUpdated && (
           <>
-            <textarea
-              defaultValue={post.post_content}
-              onChange={(e) => setTextUpdate(e.target.value)}
-            />
+            <div className="textarea-container-update">
+              <textarea
+                defaultValue={post.post_content}
+                onChange={(e) => setTextUpdate(e.target.value)}
+              />
+            </div>
             <button onClick={updateItem}>Valider modification</button>
             {userData.id_user === post.id_user && (
               <button onClick={() => setIsUpdated(!isUpdated)}>Annuler</button>
             )}
+            {post.post_image && (
+              <div className="post-pic">
+                <img src={post.post_image} alt="post-pic" />
+              </div>
+            )}
+            {post.post_video && (
+              <div className="post-video">
+                <iframe
+                  src={post.post_video}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title={post.id_post}
+                ></iframe>
+              </div>
+            )}
           </>
-        )}
-        {post.post_image && <img src={post.post_image} alt="post-pic" />}
-        {post.post_video && (
-          <iframe
-            width="500"
-            height="300"
-            src={post.post_video}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            title={post.id_post}
-          ></iframe>
         )}
       </div>
       <div className="comment-part">
@@ -113,7 +143,7 @@ const PostCard = ({ post }) => {
             getcom();
           }}
         >
-          Voir les coms
+          Voir les commentaires
         </button>
 
         {openComment && <CommentContainer post={post} />}

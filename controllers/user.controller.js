@@ -3,6 +3,12 @@ const pool = require("../config/db.js");
 const fs = require("fs");
 
 let alphaRegex = /^[\sa-z/-]{1,}$/i;
+
+const deleteImg = (filename) => {
+  fs.unlink(`client/public/uploads/profil/${filename}`, (err) => {
+    if (err) throw err;
+  });
+};
 // RUD users
 
 exports.getOneUser = (req, res, next) => {
@@ -79,10 +85,12 @@ exports.updateUserPicture = (req, res, next) => {
       req.file.mimetype != "image/png" &&
       req.file.mimetype != "image/jpeg"
     ) {
+      deleteImg(req.file.filename);
       res.status(200).json({
         message: "Format Invalide, format compatible : .jpg, .jpeg, ou .png",
       });
     } else if (req.file.size > 1000000) {
+      deleteImg(req.file.filename);
       res.status(200).json({
         message:
           "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 1 Mo",

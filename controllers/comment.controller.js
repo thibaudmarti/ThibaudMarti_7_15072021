@@ -34,12 +34,13 @@ exports.deleteOneComment = (req, res) => {
 
 exports.getAllComments = (req, res) => {
   const id_post = req.params.id;
-  const sql = `SELECT * FROM comment WHERE comment.comment_post = ?`;
+  const sql = `SELECT * FROM comment c, user u WHERE c.comment_post = ? AND u.id_user = c.comment_author`;
   pool.query(sql, [id_post], (err, result) => {
     if (err) {
       res.status(404).json({ err });
       throw err;
     }
+    result.forEach((element) => delete element.user_password);
     res.status(200).json(result);
   });
 };

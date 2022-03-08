@@ -1,7 +1,11 @@
 .post-card {
-  border: 1px solid blue;
-  padding: 5px;
-  height: 500px;
+  background: #eeeffd;
+  border: 2px solid #fdfdfd;
+  border-radius: 0.8rem;
+  box-shadow: 0 0 6px rgba(51, 51, 51, 0.315);
+  padding: 1rem;
+  margin: 1rem auto;
+  width: 90%;
 
   .top-part {
     display: flex;
@@ -9,18 +13,16 @@
 
     .user-part {
       display: flex;
-      // justify-content: space-between;
       align-items: center;
       min-width: 100px;
       h3 {
         margin: 0 0 0 10px;
       }
       .user-pic {
-        width: 35px;
-        height: 35px;
-        // overflow: hidden;
+        width: 45px;
+        height: 45px;
         img {
-          border-radius: 0.2rem;
+          border-radius: 2rem;
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -29,93 +31,102 @@
     }
 
     .like-part {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .numberLike {
-        font-size: 1.5rem;
-      }
-    }
-
-    .anim_heart {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 3rem;
-      height: 3rem;
-      z-index: 3;
-      & > .fas {
-        opacity: 0;
-        transition-duration: 0.5s;
-        background: linear-gradient(171deg, #ff79da 0%, #9356dc 78%);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-      }
-      & > i {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      input {
-        width: 2rem;
-        height: 2rem;
-        opacity: 0;
-        cursor: pointer;
-        z-index: 3;
-        &:checked ~ .far {
-          transition-duration: 0.5s;
-          opacity: 0;
-        }
-        &:checked ~ .fas {
-          transition-duration: 0.5s;
-          opacity: 1;
-        }
-        &:hover ~ .far {
-          transition-duration: 0.5s;
-          opacity: 0;
-        }
-        &:hover ~ .fas {
-          transition-duration: 0.5s;
-          opacity: 1;
-        }
-        &:active ~ .far {
-          transition-duration: 0.2s;
-          transform: scale(1.15);
-        }
-        &:active ~ .fas {
-          transition-duration: 0.2s;
-          transform: scale(1.15);
-        }
-      }
-
-      .fa-heart {
-        font-size: 2rem;
-      }
+      margin: auto 0;
     }
   }
-
   .content-part {
-    height: 100px;
-    p {
-      font-family: $font-2;
-      text-align: left;
+    height: 100%;
+    button {
+      font-size: 0.8rem;
+      margin: 0.5rem;
     }
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .content-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      p {
+        background-color: $cream;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        font-family: $font-3;
+        margin: 1rem auto;
+        box-shadow: 0 0 6px rgba(51, 51, 51, 0.089);
+      }
+      button {
+        width: 100px;
+      }
     }
-    iframe {
-      width: 100%;
+    .delete-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      button {
+        width: 100px;
+      }
+    }
+    .post-pic {
+      margin: 1rem auto;
+      width: 50%;
+      img {
+        border-radius: 0.5rem;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .post-video {
+      margin: 1rem auto;
+      width: 40%;
       height: 100%;
-      object-fit: cover;
+      iframe {
+        border-radius: 0.2rem;
+        width: 100%;
+        height: 250px;
+      }
+    }
+    .textarea-container-update {
+      margin: 1rem auto;
+      width: 50%;
+      height: 4rem;
+      textarea {
+        background-color: $cream;
+        min-width: 220px;
+        padding: 0.3rem;
+        border-radius: 0.2rem;
+        font-size: 1rem;
+        font-family: $font-3;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 0 4px rgba(0, 22, 44, 0.1);
+        &:focus {
+          box-shadow: 0 0 4px rgba(0, 0, 0, 0.37);
+        }
+      }
     }
   }
   .comment-part {
-    margin-top: 50px;
+    padding: 0.5rem;
+
+    form {
+      padding: 0.5rem;
+      input[type="text"] {
+        cursor: text;
+        color: black;
+        background-color: $white;
+        min-width: 220px;
+        max-width: 500px;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        font-size: 1rem;
+        font-family: $font-3;
+        width: 100%;
+        height: 100%;
+        margin: 0.5rem;
+        box-shadow: 0 0 4px rgba(0, 22, 44, 0.1);
+        &:focus {
+          box-shadow: 0 0 4px rgba(0, 0, 0, 0.37);
+        }
+      }
+    }
   }
 }

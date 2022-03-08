@@ -31,13 +31,11 @@ const Thread = () => {
   }, [loadPost, dispatch, count]);
 
   return (
-    <div className="post-container">
-      <ul>
-        {!isEmpty(posts[0]) &&
-          posts.map((post) => {
-            return <PostCard post={post} key={post.id_post} />;
-          })}
-      </ul>
+    <div className="thread-container">
+      {!isEmpty(posts[0]) &&
+        posts.map((post) => {
+          return <PostCard post={post} key={post.id_post} />;
+        })}
     </div>
   );
 };
