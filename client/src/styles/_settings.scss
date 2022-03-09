@@ -59,6 +59,9 @@ a,
 a:visited {
   color: $color-3;
 }
+a:focus {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.582);
+}
 button,
 input {
   background: $color-2;
@@ -84,15 +87,3 @@ textarea {
   font-family: $font-2;
   background: $white;
 }
-// textarea {
-//   &:focus {
-//     box-shadow: 0 0 4px rgba(0, 0, 0, 0.712);
-//   }
-// }
-// i {
-//   transition: 0.15s;
-
-//   &:hover {
-//     transform: scale(1.1);
-//   }
-// }

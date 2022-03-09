@@ -1,6 +1,9 @@
 .home {
   // background: url(../../../public/img/icon.png) center/cover;
   &__color {
+    h1 {
+      margin: 50px;
+    }
     // background-color: rgba($cream, 0.5);
 
     margin: 50px auto 50px;
@@ -12,6 +15,9 @@
     align-items: center;
     .thread-container {
       width: 70%;
+      @media screen and(max-width: 700px) {
+        width: 95%;
+      }
     }
   }
 }

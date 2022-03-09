@@ -7,6 +7,9 @@
   padding: 1rem;
   margin: 1rem 0;
   width: 60%;
+  @media screen and(max-width: 700px) {
+    width: 90%;
+  }
   img {
     border-radius: 0.2rem;
     width: 100%;
@@ -39,8 +42,14 @@
     margin: 1rem auto;
     width: 50%;
     height: 4rem;
+    @media screen and(max-width: 700px) {
+      width: 90%;
+    }
+    @media screen and(max-width: 1000px) {
+      width: 70%;
+    }
     textarea {
-      min-width: 220px;
+      min-width: 150px;
       padding: 0.3rem;
       border-radius: 0.2rem;
       font-size: 1rem;

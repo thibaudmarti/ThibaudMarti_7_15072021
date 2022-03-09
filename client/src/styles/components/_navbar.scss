@@ -11,6 +11,9 @@ nav {
   @media screen and(max-width: 1251px) {
     padding: 0 20px;
   }
+  @media screen and(max-width: 400px) {
+    padding: 0;
+  }
 
   .nav-container {
     display: flex;
@@ -40,25 +43,38 @@ nav {
     .profil-detail {
       display: flex;
       justify-content: space-around;
-
-      min-width: 300px;
-      max-width: 300px;
       align-items: center;
-      .welcome {
-        min-width: 100px;
-        display: flex;
-        justify-content: space-around;
+      width: 30%;
+      min-width: 150px;
+      // @media screen and(max-width: 400px) {
+      //   width: 20%;
+      // }
+      // min-width: 300px;
+      // max-width: 300px;
+      a {
+        width: 100%;
 
-        align-items: center;
+        .welcome {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          .nav-name {
+            width: 100%;
+            h5 {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              width: 80%;
+              margin: 0 0 0 0.4rem;
+              font-size: 1rem;
+            }
+          }
 
-        h5 {
-          font-size: 1rem;
-        }
-
-        img {
-          border-radius: 0.35rem;
-          height: 35px;
-          width: 35px;
+          img {
+            border-radius: 0.35rem;
+            height: 35px;
+            width: 35px;
+          }
         }
       }
     }

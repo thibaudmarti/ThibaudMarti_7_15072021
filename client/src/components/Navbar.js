@@ -29,8 +29,9 @@ const Navbar = () => {
                 ) : (
                   <img src="./img/default.png" alt="profil-pic" />
                 )}
-
-                <h5>{userData.user_name}</h5>
+                <div className="nav-name">
+                  <h5>{userData.user_name}</h5>
+                </div>
               </div>
             </NavLink>
             <Logout />

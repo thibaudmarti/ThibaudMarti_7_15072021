@@ -39,6 +39,9 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         padding: 0.6rem;
+        @media screen and(max-width: 900px) {
+          width: 100%;
+        }
         button {
           margin: 0 1rem;
           cursor: pointer;
