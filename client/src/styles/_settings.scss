@@ -71,7 +71,7 @@ input {
   border-radius: 0.3rem;
 
   &:focus {
-    border: 1px dashed black;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.582);
   }
 
   &:hover {

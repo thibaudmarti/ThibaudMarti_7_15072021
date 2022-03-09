@@ -89,11 +89,11 @@ exports.updateUserPicture = (req, res, next) => {
       res.status(200).json({
         message: "Format Invalide, format compatible : .jpg, .jpeg, ou .png",
       });
-    } else if (req.file.size > 1000000) {
+    } else if (req.file.size > 3000000) {
       deleteImg(req.file.filename);
       res.status(200).json({
         message:
-          "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 1 Mo",
+          "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 3 Mo",
       });
     } else {
       let { destination, filename } = req.file;

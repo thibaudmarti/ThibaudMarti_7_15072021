@@ -22,9 +22,9 @@ const UploadImg = () => {
       ) {
         fileValidation.innerHTML =
           "Format Invalide, format compatible : .jpg, .jpeg, ou .png";
-      } else if (file.size > 1000000) {
+      } else if (file.size > 3000000) {
         fileValidation.innerHTML =
-          "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 1 Mo";
+          "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 3 Mo";
       } else {
         dispatch(uploadPicture(data, userData.id_user));
         fileValidation.innerHTML = "";

@@ -29,17 +29,19 @@ exports.createPost = (req, res, next) => {
     if (
       file.mimetype != "image/jpg" &&
       file.mimetype != "image/png" &&
-      file.mimetype != "image/jpeg"
+      file.mimetype != "image/jpeg" &&
+      file.mimetype != "image/gif"
     ) {
       deleteImg(file.filename);
       res.status(200).json({
-        message: "Format Invalide, format compatible : .jpg, .jpeg, ou .png",
+        message:
+          "Format Invalide, format compatible : .jpg, .jpeg, .gif, ou .png",
       });
-    } else if (file.size > 1000000) {
+    } else if (file.size > 3000000) {
       deleteImg(file.filename);
       res.status(200).json({
         message:
-          "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 1 Mo",
+          "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 3 Mo",
       });
     } else {
       let { filename } = req.file;

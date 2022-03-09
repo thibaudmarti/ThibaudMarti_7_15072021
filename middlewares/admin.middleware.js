@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
   ('Admin4', '${process.env.ADMIN_EMAIL4}', '${process.env.ADMIN_PASSWORD}', 'Moderator', 1);`;
   pool.query(sql, (err, result) => {
     if (err) {
-      res.status(304).json({ error: "admin already there" });
+      res.status(200).json({ error: "admin already there" });
     } else if (!result) {
       res.status(304).json({ error: "admin already there" });
     } else {

@@ -20,20 +20,20 @@ const Log = () => {
     <div className="connection-form">
       <div className="form-container">
         <div className="btn-container">
-          <div
+          <button
             onClick={handleModals}
             id="register"
             className={signFormModal ? "active-btn" : null}
           >
             S'inscrire
-          </div>
-          <div
+          </button>
+          <button
             onClick={handleModals}
             id="login"
             className={logFormModal ? "active-btn" : null}
           >
             Se connecter
-          </div>
+          </button>
         </div>
         {signFormModal && <SignForm />}
         {logFormModal && <LogForm />}

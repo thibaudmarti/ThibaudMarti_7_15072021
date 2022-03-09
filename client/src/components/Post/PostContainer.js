@@ -30,13 +30,14 @@ const PostContainer = () => {
         if (
           file.type !== "image/jpg" &&
           file.type !== "image/png" &&
-          file.type !== "image/jpeg"
+          file.type !== "image/jpeg" &&
+          file.type !== "image/gif"
         ) {
           postValidationError.innerHTML =
-            "Format Invalide, format compatible : .jpg, .jpeg, ou .png";
-        } else if (file.size > 1000000) {
+            "Format Invalide, format compatible : .jpg, .jpeg, .gif, ou .png";
+        } else if (file.size > 3000000) {
           postValidationError.innerHTML =
-            "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 1 Mo";
+            "Ficher trop volumineux, veuillez choisir un fichier d'une taille inférieure a 3 Mo";
         } else {
           postValidationError.innerHTML = "";
           await dispatch(addPost(data));
