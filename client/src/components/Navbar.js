@@ -39,7 +39,7 @@ const Navbar = () => {
         ) : (
           <NavLink to="/connexion">
             <div className="connection-require">
-              Veuillez vous connecter :
+              <p>Veuillez vous connecter :</p>
               <img src="./img/icons/login.svg" alt="login" />
             </div>
           </NavLink>

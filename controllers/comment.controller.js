@@ -1,6 +1,5 @@
 const pool = require("../config/db.js");
 
-// CRUD comments
 exports.createComment = (req, res, next) => {
   const { comment_author, comment_content } = req.body;
   const { id: comment_post } = req.params;

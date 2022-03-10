@@ -10,20 +10,23 @@ const Logout = () => {
   };
 
   const logout = async () => {
-    await axios({
-      method: "get",
-      url: `${process.env.REACT_APP_API_URL}api/auth/logout`,
-      withCredentials: true,
-    })
-      .then(() => removeCookie("jwt"))
-      .catch((err) => console.log(err));
+    if (window.confirm("Souhaitez vous vous déconnecter ?")) {
+      await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}api/auth/logout`,
+        withCredentials: true,
+      })
+        .then(() => removeCookie("jwt"))
+        .catch((err) => console.log(err));
 
-    window.location = "/connexion";
+      window.location = "/connexion";
+    }
   };
 
   return (
     <div onClick={logout} className="logout">
       <button>
+        <p>Déconnexion</p>
         <img src="./img/icons/logout.svg" alt="logout" />
       </button>
     </div>

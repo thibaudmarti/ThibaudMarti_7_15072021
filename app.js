@@ -1,9 +1,7 @@
-// import express
 const express = require("express");
 
 const cookieParser = require("cookie-parser");
 
-// path for routes
 const userRoutes = require("./routes/user.routes");
 const postRoutes = require("./routes/post.routes");
 const authRoutes = require("./routes/auth.routes");
@@ -11,10 +9,8 @@ const commentRoutes = require("./routes/comment.routes");
 const authJwtid = require("./middlewares/authJwtid.middleware");
 const admin = require("./middlewares/admin.middleware");
 
-// import morgan
 const morgan = require("morgan");
 
-// import helmet
 const helmet = require("helmet");
 
 const app = express();
@@ -24,7 +20,6 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 app.use(morgan("dev"));
 
-// CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
   res.setHeader(
@@ -39,7 +34,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// method to parse the request body as a JSON object (POST)
 app.use(express.json());
 app.use(cookieParser());
 
@@ -51,7 +45,6 @@ app.get("/jwtid", authJwtid, (req, res) => {
   res.status(200).json(res.locals.user.id_user);
 });
 
-// routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);

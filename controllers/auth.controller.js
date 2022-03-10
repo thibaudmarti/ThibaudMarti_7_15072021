@@ -80,8 +80,6 @@ exports.login = (req, res) => {
     if (err) {
       return res.status(404).json({ err });
     }
-
-    // ===== Verify password with hash in DB ======
     if (results[0] && results[0].user_admin === 0) {
       const { user_password: hashedPassword, id_user } = results[0];
 
@@ -92,11 +90,8 @@ exports.login = (req, res) => {
         });
       }
 
-      // If match, generate JWT token
-
       const token = createToken(id_user);
 
-      // remove the password key of the response
       delete results[0].user_password;
 
       res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
@@ -155,9 +150,7 @@ exports.deleteUser = (req, res, next) => {
   pool.query(sqlDelete, [id_user], (err, result) => {
     if (err) return res.status(404).json({ err });
 
-    // res.cookie("jwt", "", { maxAge: 1 });
     res.clearCookie("jwt");
     res.status(200).json({ message: "user deleted" });
-    // window.location = "/";
   });
 };

@@ -12,9 +12,6 @@ const CommentContainer = ({ post }) => {
   const userData = useSelector((state) => state.userReducer);
   const [text, setText] = useState("");
   const [comment, setComment] = useState(false);
-
-  // const [noComment, setNoComment] = useState(false);
-  // const [formComment, setFormComment] = useState(false);
   const dispatch = useDispatch();
 
   const deleteThisCom = async (id_comment) => {
@@ -37,21 +34,12 @@ const CommentContainer = ({ post }) => {
   };
 
   useEffect(() => {
-    // dispatch(getComments(post.id_post));
     if (comments[0]) {
       if (comments[0].comment_post === post.id_post) {
-        // console.log(comments[0].comment_post);
         setComment(true);
-        // setFormComment(true);
-        // setNoComment(false);
       } else {
         setComment(false);
-        // setFormComment(false);
-        // setNoComment(false);
       }
-    } else {
-      // setNoComment(true);
-      // setFormComment(true);
     }
   }, [comments, dispatch, post.id_post]);
 
@@ -92,14 +80,13 @@ const CommentContainer = ({ post }) => {
                       }
                     }}
                   >
-                    Supprimer ce com
+                    Supprimer ce commentaire
                   </button>
                 </div>
               )}
             </div>
           );
         })}
-      {/* {noComment && <div>Pas de commentaire pour le moment !</div>} */}
 
       <form action="" onSubmit={handleComment} className="comment-form">
         <input

@@ -1,5 +1,3 @@
-DROP DATABASE `projet7bdd`;
-
 CREATE DATABASE IF NOT EXISTS `projet7bdd`;
 
 USE `projet7bdd`;
@@ -44,11 +42,3 @@ CREATE TABLE IF NOT EXISTS `likes` (
     FOREIGN KEY (`like_author`) REFERENCES `user` (`id_user`) ON DELETE CASCADE,
     FOREIGN KEY (`like_post`) REFERENCES `post` (`id_post`) ON DELETE CASCADE
 );
-
-
-INSERT INTO `user` (`user_name`, `user_email`, `user_password`, `user_job`, `user_admin`)
- VALUES
- ('Admin1', 'Admin1@gmail.com', 'password', 'Moderator', 1),
- ('Admin2', 'Admin2@gmail.com', 'password', 'Moderator', 1),
- ('Admin3', 'Admin3@gmail.com', 'password', 'Moderator', 1),
- ('Admin4', 'Admin4@gmail.com', 'password', 'Moderator', 1);

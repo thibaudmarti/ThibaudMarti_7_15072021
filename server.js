@@ -1,45 +1,3 @@
-// const express = require("express");
-// const cookieParser = require("cookie-parser");
-// const userRoutes = require("./routes/user.routes");
-// const postRoutes = require("./routes/post.routes");
-// require("dotenv").config({ path: "./config/.env" });
-// // require("./config/db");
-// // const { checkUser, requireAuth } = require("./middleware/auth.middleware");
-// const app = express();
-
-// // CORS
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-//   );
-//   res.setHeader(
-//     "Access-Control-Allow-Methods",
-//     "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-//   );
-//   next();
-// });
-
-// app.use(express.json());
-// // app.use(cookieParser());
-
-// //jwt
-// // app.get("*", checkUser);
-// // app.get("/jwtid", requireAuth, (req, res) => {
-// //   res.status(200).send(res.locals.user._id);
-// // });
-
-// //routes
-// app.use("/api/user", userRoutes);
-// app.use("/api/post", postRoutes);
-
-// // server
-// app.listen(process.env.PORT, () => {
-//   console.log(`Listening on port ${process.env.PORT}`);
-// });
-
-// import HTTP package to create a server
 const http = require("http");
 const app = require("./app");
 
@@ -54,11 +12,10 @@ const normalizePort = (val) => {
   }
   return false;
 };
-// return a valid port
+
 const port = normalizePort(process.env.PORT || "4000");
 app.set("port", port);
 
-// find errors and handle them
 const errorHandler = (error) => {
   if (error.syscall !== "listen") {
     throw error;
@@ -83,7 +40,7 @@ const errorHandler = (error) => {
 const server = http.createServer(app);
 
 server.on("error", errorHandler);
-// Listen port
+
 server.on("listening", () => {
   const address = server.address();
   const bind = typeof address === "string" ? "pipe " + address : "port " + port;

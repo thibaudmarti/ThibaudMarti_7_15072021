@@ -3,7 +3,6 @@ const router = express.Router();
 const userCtrl = require("../controllers/user.controller");
 const upload = require("../middlewares/multer-config");
 
-// Post CRUD
 router.get("/:id", userCtrl.getOneUser);
 router.put("/name/:id", userCtrl.updateUserName);
 router.put("/job/:id", userCtrl.updateUserJob);

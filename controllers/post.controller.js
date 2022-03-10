@@ -23,8 +23,6 @@ exports.createPost = (req, res, next) => {
     });
   }
 
-  // post_id will be equal to the post inserted, and will be reused to link the image at the correct post in the below query
-
   if (file) {
     if (
       file.mimetype != "image/jpg" &&
@@ -117,8 +115,6 @@ exports.deleteOnePost = (req, res, next) => {
   });
 };
 
-// // Like & unlike a post
-
 exports.getAllLikes = (req, res, next) => {
   const sql = "SELECT * FROM likes l, post p WHERE l.like_post = p.id_post";
   pool.query(sql, (err, result) => {
@@ -134,10 +130,9 @@ exports.getAllLikes = (req, res, next) => {
 exports.likePost = (req, res) => {
   const { like_author } = req.body;
   const { id: like_post } = req.params;
-  // console.log(req.params);
+
   const sqlSelect = `SELECT * FROM likes l WHERE l.like_author = ? AND l.like_post = ?`;
   pool.query(sqlSelect, [like_author, like_post], (err, result) => {
-    // console.log(result);
     if (err) {
       console.log(err);
       res.status(404).json({ err });

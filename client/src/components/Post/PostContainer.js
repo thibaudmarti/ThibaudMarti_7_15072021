@@ -100,7 +100,7 @@ const PostContainer = () => {
         <textarea
           name="postContent"
           id="postContent"
-          placeholder="Écrivez tous ce que vous voulez !"
+          placeholder="Écrivez tout ce que vous voulez !"
           onChange={(e) => setPostContent(e.target.value)}
           value={postContent}
         />
@@ -122,7 +122,7 @@ const PostContainer = () => {
           {isEmpty(postVideo) && (
             <div className="file-container">
               <label htmlFor="file-image">
-                Pour postez une image cliquez ici :
+                Pour poster une image cliquez ici :
                 <img src="./img/icons/picture.svg" alt="img" />
               </label>
               <input
@@ -135,7 +135,7 @@ const PostContainer = () => {
             </div>
           )}
           {postVideo && (
-            <button onClick={() => setPostVideo("")}>Suppr vid</button>
+            <button onClick={() => setPostVideo("")}>Annuler</button>
           )}
           <div className="send-part">
             {postContent || postImage || postVideo > 20 ? (

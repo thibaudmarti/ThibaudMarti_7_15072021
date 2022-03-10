@@ -1,15 +1,8 @@
 import React from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { deleteComment } from "../../actions/comment.actions";
 
 const CommentCard = ({ comment, post }) => {
-  const logInfo = () => {
-    console.log(comment);
-    console.log(post);
-  };
-
   return (
-    <div className="comment-card" onClick={logInfo}>
+    <div className="comment-card">
       <div className="user-container">
         <div className="user-com">
           <div className="user-pic">

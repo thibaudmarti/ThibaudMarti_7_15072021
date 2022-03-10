@@ -16,7 +16,6 @@ module.exports = (req, res, next) => {
         res.status(204).json({ message: "Unauthorized" });
       } else {
         res.locals.user = result[0];
-        console.log("succes authJwtid");
         next();
       }
     });

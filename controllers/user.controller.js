@@ -9,12 +9,10 @@ const deleteImg = (filename) => {
     if (err) throw err;
   });
 };
-// RUD users
 
 exports.getOneUser = (req, res, next) => {
   const { id: id_user } = req.params;
-  // console.log(res.locals.user);
-  // console.log(res.locals.user.id_user);
+
   const sqlGetUser = `SELECT * FROM user WHERE user.id_user = ?`;
   pool.query(sqlGetUser, [id_user], (err, result) => {
     if (err) {
@@ -22,7 +20,6 @@ exports.getOneUser = (req, res, next) => {
       throw err;
     }
     delete result[0].user_password;
-    // console.log(result[0]);
     res.status(200).json(result[0]);
   });
 };
@@ -98,7 +95,6 @@ exports.updateUserPicture = (req, res, next) => {
     } else {
       let { destination, filename } = req.file;
       destination = `./uploads/profil/` + filename;
-      // ../../images/profils/filename
 
       const sqlUpdateUser = `UPDATE user u SET user_picture = ? WHERE u.id_user = ?`;
       pool.query(sqlUpdateUser, [destination, id_user], (err, result) => {

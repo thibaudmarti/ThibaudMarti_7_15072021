@@ -7,5 +7,20 @@
   button {
     background-color: transparent;
     padding: 0;
+    color: $black;
+    &:hover {
+      color: $color-1;
+    }
+    img {
+      display: none;
+    }
+    @media screen and(max-width: 1000px) {
+      p {
+        display: none;
+      }
+      img {
+        display: inherit;
+      }
+    }
   }
 }

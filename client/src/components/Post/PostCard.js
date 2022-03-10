@@ -53,7 +53,7 @@ const PostCard = ({ post }) => {
               {post.post_content && <p>{post.post_content}</p>}
               {post.post_content && userData.id_user === post.id_user && (
                 <button onClick={() => setIsUpdated(!isUpdated)}>
-                  Modifer le texte
+                  Modifier le texte
                 </button>
               )}
             </div>
@@ -78,7 +78,9 @@ const PostCard = ({ post }) => {
                 <button
                   onClick={() => {
                     if (
-                      window.confirm("Voulez-vous vraiment supprimer ce post ?")
+                      window.confirm(
+                        "Voulez-vous vraiment supprimer votre post ?"
+                      )
                     ) {
                       deleteThisPost();
                     }

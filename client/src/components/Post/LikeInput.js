@@ -21,9 +21,9 @@ const LikeInput = ({ post }) => {
       .then(() => getLikesNb())
       .then(() => checkLikes());
   };
+
   const checkLikes = async () => {
     const response = await dispatch(postLikedByUser(post.id_post, uid));
-    // console.log(response.data[0]);
     if (response.data[0]) {
       setLiked(true);
     } else {
@@ -39,7 +39,6 @@ const LikeInput = ({ post }) => {
   useEffect(() => {
     const checkLikes = async () => {
       const response = await dispatch(postLikedByUser(post.id_post, uid));
-      // console.log(response.data[0]);
       if (response.data[0]) {
         setLiked(true);
       } else {

@@ -25,7 +25,7 @@ const App = () => {
           if (res.data) {
             setUid(res.data);
           } else {
-            console.log("no token");
+            console.log("No token !");
           }
         })
         .catch((err) => {
@@ -36,7 +36,7 @@ const App = () => {
     fetchToken();
     adminInsertion();
     if (uid) dispatch(getUser(uid));
-  }, [uid, dispatch]); //uid, dispatch
+  }, [uid, dispatch]);
 
   return (
     <UidContext.Provider value={uid}>

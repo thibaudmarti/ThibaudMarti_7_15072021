@@ -47,6 +47,7 @@ const UploadImg = () => {
         accept=".jpg, .jpeg, .png"
         onChange={(e) => setFile(e.target.files[0])}
       />
+      {file && <p>{file.name}</p>}
       <br />
       <input type="submit" value="Envoyer" />
       <div className="filevalidation error"></div>

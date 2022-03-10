@@ -123,7 +123,7 @@ const SignForm = () => {
         <>
           <span></span>
           <h4 className="success">
-            Inscription réussie, veuilez vous connecter
+            Inscription réussie, veuillez vous connecter
           </h4>
         </>
       ) : (

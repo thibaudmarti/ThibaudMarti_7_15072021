@@ -54,10 +54,10 @@ const ProfilComponent = () => {
 
   return (
     <div className="profil-container">
-      <h1>Profil de {userData.user_name}</h1>
+      <h1>{userData.user_name}</h1>
       <div className="content-container">
         <div className="image-container">
-          <h3>Photo de profil</h3>
+          <h3>Photo de profil :</h3>
           {userData.user_picture ? (
             <img src={userData.user_picture} alt="profil-pic" />
           ) : (

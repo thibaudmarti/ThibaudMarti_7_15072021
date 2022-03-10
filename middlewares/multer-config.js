@@ -15,13 +15,9 @@ const storage = multer.diskStorage({
       cb(null, "./client/public/uploads/profil/");
   },
   filename: (req, file, callback) => {
-    // remove space
     const name = file.originalname.split(" ").join("_");
-    // choose the right extension
     const extension = MIME_TYPES[file.mimetype];
-    // remove extension from the original name
     const nameWithoutExtension = name.split("." + extension).join("_");
-    // unique assembly (original name, current date . extension)
     callback(null, nameWithoutExtension + Date.now() + "." + extension);
   },
 });
