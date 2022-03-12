@@ -15,7 +15,7 @@ const Navbar = () => {
           <NavLink to="/">
             <div className="logo">
               <img src="./img/icon.png" alt="logo icon" />
-              <h3>Groupomania</h3>
+              <h1>Groupomania</h1>
             </div>
           </NavLink>
         </div>
@@ -30,7 +30,7 @@ const Navbar = () => {
                   <img src="./img/default.png" alt="profil-pic" />
                 )}
                 <div className="nav-name">
-                  <h5>{userData.user_name}</h5>
+                  <h2>{userData.user_name}</h2>
                 </div>
               </div>
             </NavLink>

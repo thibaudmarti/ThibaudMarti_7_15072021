@@ -12,7 +12,7 @@ const Profil = () => {
           <ProfilComponent />
         </>
       ) : (
-        <h1>Vous n'êtes pas connecté !</h1>
+        <h2>Vous n'êtes pas connecté !</h2>
       )}
     </div>
   );

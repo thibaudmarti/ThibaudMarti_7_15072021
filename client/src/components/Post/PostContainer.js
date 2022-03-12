@@ -12,6 +12,13 @@ const PostContainer = () => {
   const dispatch = useDispatch();
   const postValidationError = document.querySelector(".postvalidation.error");
 
+  // const getLabel = () => {
+  //   const label = document.querySelector("#label-image");
+  //   label.addEventListener("click", () => {
+
+  //   } )
+  // };
+
   const handleImage = (e) => {
     setPostImage(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
@@ -97,6 +104,7 @@ const PostContainer = () => {
         <h3>{userData.user_name}</h3>
       </div>
       <div className="form-part">
+        <label htmlFor="postContent">Écrivez votre message ici</label>
         <textarea
           name="postContent"
           id="postContent"
@@ -121,7 +129,7 @@ const PostContainer = () => {
         <div className="file-input">
           {isEmpty(postVideo) && (
             <div className="file-container">
-              <label htmlFor="file-image">
+              <label htmlFor="file-image" id="label-image">
                 Pour poster une image cliquez ici :
                 <img src="./img/icons/picture.svg" alt="img" />
               </label>
@@ -135,7 +143,7 @@ const PostContainer = () => {
             </div>
           )}
           {postVideo && (
-            <button onClick={() => setPostVideo("")}>Annuler</button>
+            <button onClick={() => setPostVideo("")}>Annuler Vidéo</button>
           )}
           <div className="send-part">
             {postContent || postImage || postVideo > 20 ? (

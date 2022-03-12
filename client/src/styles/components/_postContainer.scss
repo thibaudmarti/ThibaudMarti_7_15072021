@@ -39,6 +39,9 @@
     }
   }
   .form-part {
+    label {
+      display: none;
+    }
     margin: 1rem auto;
     width: 50%;
     height: 4rem;
@@ -69,6 +72,8 @@
         margin: auto;
         display: flex;
         justify-content: flex-end;
+        align-items: flex-end;
+        flex-direction: column;
         max-width: 400px;
         label {
           cursor: pointer;
@@ -82,10 +87,17 @@
             object-fit: cover;
           }
         }
-
         input {
-          display: none;
+          border: 1px solid rgba(0, 0, 0, 0.349);
+          width: 65%;
+          height: 1px;
+          padding: 0;
         }
+
+        // input {
+        //   // visibility: hidden;
+        //   display: none;
+        // }
       }
 
       .send-part {

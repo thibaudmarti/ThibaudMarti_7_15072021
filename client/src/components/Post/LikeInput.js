@@ -57,16 +57,20 @@ const LikeInput = ({ post }) => {
   return (
     <>
       {liked && (
-        <div className="liked">
-          <i className="fas fa-heart" onClick={likeThisPost}></i>
-          <div className="numberLike">{countLike}</div>
-        </div>
+        <button onClick={likeThisPost}>
+          <div className="liked">
+            <i className="fas fa-heart"></i>
+            <div className="numberLike">{countLike}</div>
+          </div>
+        </button>
       )}
       {liked === false && (
-        <div className="liked">
-          <i className="far fa-heart" onClick={likeThisPost}></i>
-          <div className="numberLike">{countLike}</div>
-        </div>
+        <button onClick={likeThisPost}>
+          <div className="liked">
+            <i className="far fa-heart"></i>
+            <div className="numberLike">{countLike}</div>
+          </div>
+        </button>
       )}
     </>
   );

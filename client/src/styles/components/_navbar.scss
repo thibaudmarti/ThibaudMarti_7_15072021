@@ -28,7 +28,7 @@ nav {
         display: flex;
         align-items: center;
 
-        h3 {
+        h1 {
           font-size: 1.5rem;
           font-family: $font-3;
           color: $color-logo;
@@ -59,8 +59,9 @@ nav {
           align-items: center;
           .nav-name {
             width: 100%;
-            h5 {
+            h2 {
               white-space: nowrap;
+              font-family: $font-3;
               overflow: hidden;
               text-overflow: ellipsis;
               width: 80%;
@@ -73,6 +74,7 @@ nav {
           }
 
           img {
+            object-fit: cover;
             border-radius: 0.35rem;
             height: 35px;
             width: 35px;

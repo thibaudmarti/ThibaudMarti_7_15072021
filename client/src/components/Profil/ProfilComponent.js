@@ -54,7 +54,7 @@ const ProfilComponent = () => {
 
   return (
     <div className="profil-container">
-      <h1>{userData.user_name}</h1>
+      <h2>{userData.user_name}</h2>
       <div className="content-container">
         <div className="image-container">
           <h3>Photo de profil :</h3>

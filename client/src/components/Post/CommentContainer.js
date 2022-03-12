@@ -89,9 +89,11 @@ const CommentContainer = ({ post }) => {
         })}
 
       <form action="" onSubmit={handleComment} className="comment-form">
+        <label htmlFor="comment">Écrivez votre commentaire ici</label>
         <input
           type="text"
           name="text"
+          id="comment"
           onChange={(e) => setText(e.target.value)}
           value={text}
           placeholder="Laisser un commentaire"

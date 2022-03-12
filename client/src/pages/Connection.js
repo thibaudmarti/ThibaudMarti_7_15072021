@@ -10,7 +10,7 @@ const Connection = () => {
     <div className="connection-page">
       {uid ? (
         <div className="connected">
-          <h1>Vous êtes connecté !</h1>
+          <h2>Vous êtes connecté !</h2>
           <div className="deconnect">Souhaitez vous être deconnecté ?</div>
           <Logout />
         </div>

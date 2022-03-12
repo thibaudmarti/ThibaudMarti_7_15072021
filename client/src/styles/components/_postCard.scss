@@ -32,6 +32,13 @@
 
     .like-part {
       margin: auto 0;
+      button {
+        background: transparent;
+        color: inherit;
+        font-family: inherit;
+        padding: 0;
+        font-size: inherit;
+      }
     }
   }
   .content-part {
@@ -82,6 +89,9 @@
       margin: 1rem auto;
       width: 40%;
       height: 100%;
+      @media screen and(max-width: 1200px) {
+        width: 90%;
+      }
       iframe {
         border-radius: 0.2rem;
         width: 100%;

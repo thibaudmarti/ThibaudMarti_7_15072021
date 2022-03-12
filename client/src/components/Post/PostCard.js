@@ -29,13 +29,16 @@ const PostCard = ({ post }) => {
     dispatch(deletePost(post.id_post));
   };
 
+  const altProfilPic = post.user_name + " profil-pic";
+  const altPostPic = post.post_image + " post-pic";
+
   return (
     <div className="post-card" key={post.id_post}>
       <div className="top-part">
         <div className="user-part">
           <div className="user-pic">
             {post.user_picture ? (
-              <img src={post.user_picture} alt="profil-pic" />
+              <img src={post.user_picture} alt={altProfilPic} />
             ) : (
               <img src="./img/default.png" alt="profil-pic" />
             )}
@@ -59,7 +62,7 @@ const PostCard = ({ post }) => {
             </div>
             {post.post_image && (
               <div className="post-pic">
-                <img src={post.post_image} alt="post-pic" />
+                <img src={post.post_image} alt={altPostPic} />
               </div>
             )}
             {post.post_video && (
